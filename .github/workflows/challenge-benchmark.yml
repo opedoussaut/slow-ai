@@ -1,0 +1,41 @@
+name: Intelligence Challenge reproducibility
+on:
+  pull_request:
+    paths:
+      - 'challenge/*.py'
+      - '.github/workflows/challenge-benchmark.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/*.py'
+      - '.github/workflows/challenge-benchmark.yml'
+  workflow_dispatch:
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m unittest discover -s challenge -p 'test_*.py' -v
+      - name: Produce evidence
+        run: python -m challenge.benchmark --output /tmp/slowai-evidence.json --repeats 10
+      - name: Verify evidence schema
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/slowai-evidence.json'))
+          assert d['training_count']==180 and d['test_count']==90
+          assert d['measurements']['energy_joules'] is None
+          assert d['measurements']['carbon_gco2e'] is None
+          for result in d['results'].values():
+              assert result['correct']+result['errors']==90
+          print('Evidence verified')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: slowai-reproducible-evidence
+          path: /tmp/slowai-evidence.json
