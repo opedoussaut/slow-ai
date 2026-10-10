@@ -1,0 +1,37 @@
+name: Generate verified steel evidence snapshot
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate snapshot from official UCI source
+        run: python -m challenge.steel_benchmark --download --output /tmp/steel-v1.json
+      - name: Validate snapshot contents
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/steel-v1.json')
+          r=json.loads(p.read_text())
+          assert r['dataset_size']==1941
+          assert r['train_count']+r['test_count']==1941
+          assert len(r['classes'])==7 and len(r['features'])==27
+          assert r['measurements']['energy_joules'] is None
+          for name in ['majority_class_non_ai','knn_3']:
+              m=r['results'][name]
+              assert m['correct']<=m['total']==r['test_count']
+              assert len(m['predictions'])==r['test_count']
+          print('Verified snapshot generated. Review and commit as challenge/evidence/steel-v1.json.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-steel-v1-snapshot
+          path: /tmp/steel-v1.json
