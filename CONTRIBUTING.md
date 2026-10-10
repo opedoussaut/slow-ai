@@ -19,4 +19,4 @@ Thank you for helping make AI decisions more evidence-based, efficient and respo
 Use synthetic or properly licensed datasets; never submit confidential information, secrets or personal data. Distinguish simulation from real measurements, and disclose methodology, assumptions and conflicts of interest. Do not claim carbon or energy savings without defensible measurements and system boundaries.
 
 ## Licensing
-A repository-wide license has not yet been selected. Please discuss licensing and ownership of nontrivial contributions with the maintainer before submitting them. Do not assume this repository is already licensed for unrestricted reuse.
+SlowAI uses the Apache License, Version 2.0 (see `LICENSE`). Contributions must be yours to license or appropriately authorized; third-party dependencies and assets retain their own licenses.
