@@ -1,0 +1,43 @@
+name: Steel fault real-data experiment
+on:
+  pull_request:
+    paths:
+      - 'challenge/steel_benchmark.py'
+      - 'challenge/test_steel_benchmark.py'
+      - '.github/workflows/steel-benchmark.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/steel_benchmark.py'
+      - 'challenge/test_steel_benchmark.py'
+      - '.github/workflows/steel-benchmark.yml'
+  workflow_dispatch:
+jobs:
+  steel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m unittest discover -s challenge -p 'test_*.py' -v
+      - name: Download official UCI dataset and run benchmark
+        run: python -m challenge.steel_benchmark --download --output /tmp/slowai-steel-evidence.json
+      - name: Validate dataset and report
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/slowai-steel-evidence.json'))
+          assert r['dataset_size']==1941, r['dataset_size']
+          assert r['train_count']+r['test_count']==1941
+          assert len(r['features'])==27
+          assert len(r['classes'])==7
+          assert r['measurements']['energy_joules'] is None
+          print('Steel evidence schema verified')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: slowai-steel-fault-evidence
+          path: /tmp/slowai-steel-evidence.json
