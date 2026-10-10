@@ -33,11 +33,12 @@ jobs:
           cat > _site/index.html <<'HTML'
           <!doctype html>
           <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-          <meta http-equiv="refresh" content="0; url=challenge/">
+          <meta http-equiv="refresh" content="0; url=challenge/slowai.html">
           <title>ƧlowAI — Intelligence Challenge</title></head>
-          <body><p><a href="challenge/">Open the ƧlowAI Intelligence Challenge</a></p></body></html>
+          <body><p><a href="challenge/slowai.html">Open the ƧlowAI Intelligence Challenge</a></p></body></html>
           HTML
           touch _site/.nojekyll
+          test -s _site/challenge/slowai.html
           test -s _site/challenge/steel.html
           test -s _site/challenge/evidence/steel-v1.json
           python - <<'PY'
