@@ -62,4 +62,3 @@ jobs:
 
             **Do not merge until tests and evidence review pass.**
           add-paths: challenge/evidence/steel-v1.json
-          labels: evidence
