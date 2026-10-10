@@ -1,0 +1,86 @@
+[
+  {
+    "id": "s01",
+    "temperature_c": 45,
+    "vibration_mm_s": 2,
+    "alarm": false,
+    "expected": "normal"
+  },
+  {
+    "id": "s02",
+    "temperature_c": 70,
+    "vibration_mm_s": 4,
+    "alarm": false,
+    "expected": "normal"
+  },
+  {
+    "id": "s03",
+    "temperature_c": 77,
+    "vibration_mm_s": 3,
+    "alarm": false,
+    "expected": "inspect"
+  },
+  {
+    "id": "s04",
+    "temperature_c": 62,
+    "vibration_mm_s": 8,
+    "alarm": false,
+    "expected": "inspect"
+  },
+  {
+    "id": "s05",
+    "temperature_c": 84,
+    "vibration_mm_s": 9,
+    "alarm": false,
+    "expected": "inspect"
+  },
+  {
+    "id": "s06",
+    "temperature_c": 91,
+    "vibration_mm_s": 3,
+    "alarm": false,
+    "expected": "stop"
+  },
+  {
+    "id": "s07",
+    "temperature_c": 55,
+    "vibration_mm_s": 13,
+    "alarm": false,
+    "expected": "stop"
+  },
+  {
+    "id": "s08",
+    "temperature_c": 60,
+    "vibration_mm_s": 3,
+    "alarm": true,
+    "expected": "stop"
+  },
+  {
+    "id": "s09",
+    "temperature_c": 74,
+    "vibration_mm_s": 6,
+    "alarm": false,
+    "expected": "normal"
+  },
+  {
+    "id": "s10",
+    "temperature_c": 89,
+    "vibration_mm_s": 11,
+    "alarm": false,
+    "expected": "inspect"
+  },
+  {
+    "id": "s11",
+    "temperature_c": 76,
+    "vibration_mm_s": 11,
+    "alarm": false,
+    "expected": "inspect"
+  },
+  {
+    "id": "s12",
+    "temperature_c": 90,
+    "vibration_mm_s": 7,
+    "alarm": false,
+    "expected": "stop"
+  }
+]
