@@ -1,0 +1,56 @@
+name: Deploy public SlowAI demos to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/**'
+      - 'assets/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare static site
+        run: |
+          mkdir -p _site
+          cp -R challenge assets _site/
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+          <meta http-equiv="refresh" content="0; url=challenge/">
+          <title>ƧlowAI — Intelligence Challenge</title></head>
+          <body><p><a href="challenge/">Open the ƧlowAI Intelligence Challenge</a></p></body></html>
+          HTML
+          touch _site/.nojekyll
+          test -s _site/challenge/steel.html
+          test -s _site/challenge/evidence/steel-v1.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('_site/challenge/evidence/steel-v1.json').read_text())
+          assert d['dataset_size']==1941 and d['test_count']==388
+          assert len(d['results']['knn_3']['predictions'])==388
+          print('Pages bundle includes the verified benchmark evidence')
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
