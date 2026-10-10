@@ -2,11 +2,12 @@ name: Generate verified steel evidence snapshot
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -14,13 +15,12 @@ jobs:
           python-version: '3.12'
       - name: Generate snapshot from official UCI source
         run: python -m challenge.steel_benchmark --download --output /tmp/steel-v1.json
-      - name: Validate snapshot contents
+      - name: Validate and normalize snapshot
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path('/tmp/steel-v1.json')
-          r=json.loads(p.read_text())
+          r=json.loads(Path('/tmp/steel-v1.json').read_text())
           assert r['dataset_size']==1941
           assert r['train_count']+r['test_count']==1941
           assert len(r['classes'])==7 and len(r['features'])==27
@@ -29,9 +29,36 @@ jobs:
               m=r['results'][name]
               assert m['correct']<=m['total']==r['test_count']
               assert len(m['predictions'])==r['test_count']
-          print('Verified snapshot generated. Review and commit as challenge/evidence/steel-v1.json.')
+              assert 0 <= m['accuracy'] <= 1
+              assert 0 <= m['macro_f1'] <= 1
+              # Wall time is machine-dependent and must not cause
+              # noisy changes in a versioned reproducibility snapshot.
+              m['wall_ms_per_case']=None
+          out=Path('challenge/evidence/steel-v1.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(r,indent=2)+'\n',encoding='utf-8')
+          print('Generated deterministic, reviewable evidence:',out)
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: verified-steel-v1-snapshot
-          path: /tmp/steel-v1.json
+          path: challenge/evidence/steel-v1.json
+      - name: Open reviewable evidence PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: evidence/steel-v1-reviewed
+          delete-branch: true
+          commit-message: 'data: publish reproducible UCI steel evidence snapshot'
+          title: 'data: publish verified UCI steel benchmark snapshot'
+          body: |
+            Generated from the official UCI Steel Plates Faults archive by the
+            **Generate verified steel evidence snapshot** workflow.
+
+            Please review source SHA-256, class distribution, accuracy,
+            macro-F1, predictions, dataset license and scientific limitations.
+            Environment-dependent wall times are set to null in the published
+            snapshot; this is not an energy/carbon/cost measurement.
+
+            **Do not merge until tests and evidence review pass.**
+          add-paths: challenge/evidence/steel-v1.json
