@@ -43,6 +43,8 @@ npm install --no-save playwright@1.58.2 @axe-core/playwright@4 && npx playwright
 node --test story/story.test.mjs        # desktop, mobile, reduced motion, accessibility, real evidence
 ```
 
+The 90-second captioned video is rendered from `video/scene.html` with `node video/render.mjs slowai-story.mp4` (needs a local static server on port 8765, Playwright and ffmpeg); its visuals are illustrative and every number comes from the same scenario file or the steel evidence.
+
 CI checks that the committed scenario file is byte-identical to a fresh regeneration, and after each deployment it re-runs the browser tests against the public URL.
 
 ### What is real and what is not
