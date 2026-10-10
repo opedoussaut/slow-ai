@@ -20,9 +20,45 @@ Read the [Manifesto](MANIFESTO.md), [Roadmap](ROADMAP.md), [Contribution guide](
 
 > **Evidence matters:** The industrial scenarios below are synthetic, and simulated adapters are not measurements of real provider performance. The current benchmark is a starting point, not a validated claim of environmental savings.
 
+## See it
+
+**Public story: https://opedoussaut.github.io/slow-ai/** — about two minutes, no installation, no upload, no API key.
+
+One simulated AI Factory incident (a coolant restriction on one rack, among 40,473 records from one day) is followed through five steps:
+
+1. **Curate** — deterministic filtering, validation, change detection, aggregation and correlation turn the day into a 17-item evidence ledger. Each item links to its source records, and the page reports how much fault evidence survived (5 of 5 for the visible fault, 2 of 4 for the subtle-fault stress test).
+2. **Allocate** — four questions from the same incident go to four different routes: a threshold (no AI), a calibrated logistic decision model, a specialized fault classifier, and a frontier model. Routes 1–3 run live in the browser.
+3. **Escalate** — a confidence contract decides when a question moves up a route. Lowering it shows a cheap model accepting a wrong answer.
+4. **Decide** — the output is a downloadable decision record that requires human approval, not a chat answer.
+5. **Measure** — per-route model size and measured browser timings; tokens, cost and energy shown as *not measured*; plus the real UCI steel-fault benchmark loaded from its published evidence file.
+
+Every number on the page carries one of four labels: **Measured**, **Reproducible simulation**, **Illustrative** or **Not measured**. A browser test fails if any number lacks one.
+
+### Reproduce the story's numbers
+
+```bash
+python -m story.generator.scenario      # regenerates story/data/scenario-v1.json (standard library only)
+python -m unittest discover -s story -p 'test_*.py' -t .
+npm install --no-save playwright@1.58.2 @axe-core/playwright@4 && npx playwright install chromium
+node --test story/story.test.mjs        # desktop, mobile, reduced motion, accessibility, real evidence
+```
+
+CI checks that the committed scenario file is byte-identical to a fresh regeneration, and after each deployment it re-runs the browser tests against the public URL.
+
+### What is real and what is not
+
+| Content | Kind |
+| --- | --- |
+| UCI Steel Plates Faults benchmark (`challenge/evidence/steel-v1.json`) | Measured, reproducible (re-run 10 Oct 2026 with identical output) |
+| AI Factory cooling-loop incident, its curation, models and decisions | Reproducible simulation (seed 20261010) |
+| Browser timings per route | Measured on the visitor's device |
+| Frontier model, tokens, cost, energy, CO₂ | Not run / not measured |
+
 ---
 
-## Demonstrator 01 — Industrial AI benchmark
+## Legacy demonstrator — Industrial AI benchmark (not deployed)
+
+> Kept for history and reuse. It runs locally only, and its simulated metrics are formula-based estimates, not measurements. It is superseded by the public story above.
 
 The repository's first demonstrator is a side-by-side industrial AI benchmark proof of concept built around one simple hypothesis:
 

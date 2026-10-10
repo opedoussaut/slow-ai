@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ƧlowAI — Think first. AI when it matters.</title>
+<meta name="description" content="SlowAI gives each industrial decision the least intelligence that answers it well: curated evidence first, then plain software, small decision models, specialized models, and frontier models only at the end.">
+<link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="story.css">
+<script type="module" src="story.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the story</a>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="./"><b>Ƨ</b>lowAI</a>
+      <nav aria-label="Project">
+        <a href="#measure">Evidence</a>
+        <a href="https://github.com/opedoussaut/slow-ai">Source code</a>
+      </nav>
+    </div>
+    <h1><span>Think first.</span> <span>AI when it matters.</span></h1>
+    <p class="lead">SlowAI is an open method for giving each industrial decision the least intelligence that answers it well. Curate the evidence first. Then use plain software, a small decision model, a specialized model, and a frontier model only when nothing simpler is enough.</p>
+    <figure class="stream" data-ev-scope>
+      <canvas id="stream" aria-label="Density of simulated cooling-loop records over 24 hours, one row per data source" role="img"></canvas>
+      <figcaption>
+        <span><strong data-metric data-ev="simulation" id="rawTotal">40,473</strong> records from one day of an AI Factory cooling loop. One rack is quietly losing coolant flow.</span>
+        <span class="ev" data-kind="simulation">Reproducible simulation</span>
+      </figcaption>
+    </figure>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#curate">Follow the incident</a>
+      <a class="btn" href="#measure">Go to the measured evidence</a>
+    </div>
+  </div>
+</header>
+
+<div class="legend" aria-label="How to read the numbers">
+  <div class="wrap">
+    <span>Every number says what it is:</span>
+    <span class="pair"><span class="ev" data-kind="measured">Measured</span><span>real data, published method</span></span>
+    <span class="pair"><span class="ev" data-kind="simulation">Reproducible simulation</span><span>seeded, regenerable, not real-world performance</span></span>
+    <span class="pair"><span class="ev" data-kind="illustrative">Illustrative</span><span>explains an idea</span></span>
+    <span class="pair"><span class="ev" data-kind="not-measured">Not measured</span><span>a gap we show rather than fill</span></span>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <nav class="rail" aria-label="Story chapters">
+    <ol>
+      <li><a href="#curate">1 Curate</a></li>
+      <li><a href="#allocate">2 Allocate</a></li>
+      <li><a href="#escalate">3 Escalate</a></li>
+      <li><a href="#decide">4 Decide</a></li>
+      <li><a href="#measure">5 Measure</a></li>
+      <li><a href="#open">Open source</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <section class="chapter" id="curate" aria-labelledby="curate-h" data-ev-scope>
+      <h2 id="curate-h"><span class="step-no">1</span> Curate before anything reasons</h2>
+      <div class="prose">
+        <p class="lead">A large model could be handed the whole day. It does not need it. Deterministic steps narrow the data to evidence a person can check, and every item keeps a link back to its source records.</p>
+      </div>
+      <div class="switch" role="group" aria-label="Scenario">
+        <button type="button" data-variant="main" aria-pressed="true">Visible fault</button>
+        <button type="button" data-variant="subtle" aria-pressed="false">Subtle fault</button>
+      </div>
+      <p class="switch-note small quiet" id="variantNote">A restriction in the R07 cooling branch removes up to a third of its flow from 17:00.</p>
+
+      <div class="funnel" id="funnel" aria-live="polite"></div>
+
+      <div class="facts">
+        <div class="fact" id="factRecall">
+          <span>Fault evidence kept</span>
+          <strong data-metric data-ev="simulation" id="recallValue">–</strong>
+          <span class="small quiet" id="recallNote"></span>
+        </div>
+        <div class="fact">
+          <span>Size if sent to a model</span>
+          <strong data-metric data-ev="simulation" id="sizeValue">–</strong>
+          <span class="small quiet">JSON bytes of the raw day versus the evidence ledger. A size, not a token or cost measurement.</span>
+        </div>
+        <div class="fact">
+          <span>Conflicting evidence</span>
+          <strong data-metric data-ev="simulation" id="conflictValue">–</strong>
+          <span class="small quiet" id="conflictNote"></span>
+        </div>
+      </div>
+      <p class="small quiet block" style="margin-top:12px"><span class="ev" data-kind="simulation">Reproducible simulation</span> Curation keeps everything the injected fault produced only if its rules are good. The subtle fault shows where they are not.</p>
+
+      <div class="ledger">
+        <h3 id="ledgerTitle">Evidence ledger</h3>
+        <ul id="ledger"></ul>
+      </div>
+    </section>
+
+    <section class="chapter" id="allocate" aria-labelledby="allocate-h" data-ev-scope>
+      <h2 id="allocate-h"><span class="step-no">2</span> Give each decision the least intelligence that answers it</h2>
+      <div class="prose">
+        <p class="lead">The same incident raises four questions. They are not stages of one pipeline. Each goes to the simplest route that can answer it, and the first three run here, in your browser, on the curated evidence.</p>
+      </div>
+      <div class="routes" id="routes"></div>
+      <p class="small quiet" style="margin-top:16px"><span class="ev" data-kind="simulation">Reproducible simulation</span> <span class="ev" data-kind="measured">Measured</span> Answers come from the simulated scenario; timings are measured live in this browser and vary by device.</p>
+    </section>
+
+    <section class="chapter" id="escalate" aria-labelledby="escalate-h" data-ev-scope>
+      <h2 id="escalate-h"><span class="step-no">3</span> Escalate only when the contract says so</h2>
+      <div class="prose">
+        <p class="lead">Every decision carries a contract: how sure the answer must be, how much risk it carries, who approves. When a model cannot meet the contract, the question moves up one route, and the reason is recorded.</p>
+      </div>
+      <div class="switch" role="group" aria-label="Scenario">
+        <button type="button" data-variant="main" aria-pressed="true">Visible fault</button>
+        <button type="button" data-variant="subtle" aria-pressed="false">Subtle fault</button>
+      </div>
+      <div class="contract">
+        <div class="panel">
+          <h3>Contract: which fault is this?</h3>
+          <ul class="limits">
+            <li>Risk class: affects a running production rack</li>
+            <li>Approver: Infrastructure Operations</li>
+            <li>Escalate if the model's confidence is below the threshold</li>
+          </ul>
+          <div class="threshold">
+            <label for="threshold"><span>Required confidence</span><span id="thresholdValue">0.80</span></label>
+            <input id="threshold" type="range" min="0.40" max="0.99" step="0.01" value="0.80" aria-describedby="thresholdHelp">
+            <p class="small quiet" id="thresholdHelp" style="margin-top:8px">Move it down to see what happens when the contract is too lax.</p>
+          </div>
+        </div>
+        <div class="panel" id="escalationPanel">
+          <h3>Route 2 tries first: compact model</h3>
+          <div class="probs" id="compactProbs"></div>
+          <div class="verdict" id="verdict"></div>
+          <div id="specialized" hidden>
+            <h3 style="margin-top:22px">Route 3 answers: specialized model</h3>
+            <div class="probs" id="specialProbs"></div>
+          </div>
+        </div>
+      </div>
+      <p class="small quiet" style="margin-top:16px"><span class="ev" data-kind="simulation">Reproducible simulation</span> <span id="modelQuality"></span></p>
+    </section>
+
+    <section class="chapter" id="decide" aria-labelledby="decide-h" data-ev-scope>
+      <h2 id="decide-h"><span class="step-no">4</span> The output is a decision record, not a chat answer</h2>
+      <div class="prose">
+        <p class="lead">What leaves the system is something an engineer can audit and a manager can approve: the action, the evidence, the route behind each answer, and what is still uncertain.</p>
+      </div>
+      <article class="record" aria-labelledby="record-h">
+        <header>
+          <h3 id="record-h">Decision record · cooling loop A · rack R07</h3>
+          <span class="ev" data-kind="simulation">Reproducible simulation</span>
+        </header>
+        <dl id="recordFields"></dl>
+        <footer><button type="button" class="btn btn-ink" id="downloadRecord">Download the record (JSON)</button></footer>
+      </article>
+    </section>
+
+    <section class="chapter" id="measure" aria-labelledby="measure-h" data-ev-scope>
+      <h2 id="measure-h"><span class="step-no">5</span> What it cost, and what we have not measured</h2>
+      <div class="prose">
+        <p class="lead">Lean is a claim that needs numbers. Where we have them, they are here with their method. Where we do not, the gap stays visible.</p>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Resources per route, scrollable">
+        <table>
+          <caption class="small quiet" style="text-align:left;padding:12px 14px">Resources per route for this incident</caption>
+          <thead><tr><th scope="col">Route</th><th scope="col">Ran where</th><th scope="col">Model size</th><th scope="col">Time per call</th><th scope="col">Tokens</th><th scope="col">Cost</th><th scope="col">Energy</th></tr></thead>
+          <tbody id="costTable"></tbody>
+        </table>
+      </div>
+
+      <div class="steel">
+        <div class="panel" id="steelPanel" data-ev-scope>
+          <h3>Real data: steel plate faults</h3>
+          <p class="small quiet" style="margin-top:6px"><span class="ev" data-kind="measured">Measured</span> 388 held-out plates from the public UCI dataset, loaded from the published evidence file.</p>
+          <div class="acc" id="steelAcc"><p class="small quiet">Loading the published evidence…</p></div>
+          <p class="small quiet" style="margin-top:14px">Bars show accuracy; the outlined band is the 95% Wilson interval computed in your browser from the published predictions.</p>
+        </div>
+        <div class="panel">
+          <h3>What this does not prove</h3>
+          <ul class="limits">
+            <li>That AI was necessary, or that this model is the best simple option.</li>
+            <li>Anything about energy, cost or CO₂.</li>
+            <li>Performance in another factory or on the simulated cooling loop.</li>
+          </ul>
+          <p style="margin-top:14px"><a href="../challenge/steel.html">Inspect every prediction in the Steel Evidence Explorer</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="open" aria-labelledby="open-h">
+      <h2 id="open-h">Open by nature. Lean by design.</h2>
+      <div class="prose">
+        <p class="lead">Everything on this page can be regenerated, inspected and challenged. SlowAI is an independent, personal open-source initiative, not an employer programme.</p>
+      </div>
+      <div class="open-grid">
+        <div class="panel">
+          <h3>Reproduce this page's numbers</h3>
+          <pre tabindex="0" aria-label="Commands to reproduce the numbers"><code>git clone https://github.com/opedoussaut/slow-ai
+cd slow-ai
+python -m story.generator.scenario
+python -m pytest story</code></pre>
+          <p class="small quiet" style="margin-top:10px">Standard-library Python. The committed scenario file is checked against a fresh regeneration in CI.</p>
+        </div>
+        <div class="panel">
+          <h3>Known limits</h3>
+          <ul class="limits">
+            <li>The cooling loop, its faults and its models are simulated; the specialized model's near-perfect score reflects a clean simulation, not real-world accuracy.</li>
+            <li>No frontier model has been run yet. When one is, its date, model and token count will be published.</li>
+            <li>Energy, cost and CO₂ are not measured anywhere on this page.</li>
+          </ul>
+          <p style="margin-top:14px"><a href="https://github.com/opedoussaut/slow-ai/blob/main/MANIFESTO.md">Read the manifesto</a> · <a href="https://github.com/opedoussaut/slow-ai/issues">Challenge a claim</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">ƧlowAI · Think first. AI when it matters. · Apache 2.0 · Scenario seed <span id="seed">20261010</span></div>
+</footer>
+</body>
+</html>
