@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible problem in the code, documentation or benchmark
+title: "[Bug] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not include secrets, proprietary data or personal information."
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed problem and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include minimal steps, relevant environment and a synthetic example if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and limitations
+      description: Logs, screenshots or measurements; indicate whether outputs are simulated or measured.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, relevant dependency versions and execution mode.
