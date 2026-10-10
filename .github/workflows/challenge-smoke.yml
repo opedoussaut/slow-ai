@@ -1,0 +1,27 @@
+name: Intelligence Challenge browser smoke test
+on:
+  pull_request:
+    paths:
+      - 'challenge/**'
+      - '.github/workflows/challenge-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/**'
+      - '.github/workflows/challenge-smoke.yml'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright browser
+        run: |
+          npm install --no-save playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Run smoke checks
+        run: node --test challenge/smoke.test.mjs
