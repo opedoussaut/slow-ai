@@ -1,6 +1,30 @@
-# Lean AI
+<p align="center"><img src="assets/slowai-wordmark.svg" alt="ƧlowAI — Think first. AI when it matters." width="700"></p>
 
-Lean AI is a side-by-side industrial AI benchmark PoC built around one simple hypothesis:
+<p align="center"><strong>Open by nature. Lean by design.</strong></p>
+
+# SlowAI
+
+**SlowAI (ƧlowAI)** is an independent, community-driven open-source initiative for deciding **whether AI is necessary, when it creates real value, and how to use the minimum sufficient AI responsibly**.
+
+AI is a tool, not the default answer. We start with the problem, compare non-AI approaches, then assess AI options against quality, cost, energy, environmental impact, privacy, safety and social consequences. We publish assumptions and uncertainty rather than claiming savings without evidence.
+
+### Three guiding questions
+
+1. **Do we need AI?** Test deterministic software, simple statistics and human processes first.
+2. **If so, how much AI is enough?** Choose the smallest solution that meets explicit requirements.
+3. **What is the full impact?** Measure real outcomes and resource use; consider lifecycle and societal effects.
+
+**This is a personal, independent open-source initiative, not an employer-sponsored program.** Everyone is welcome to inspect, question and contribute.
+
+Read the [Manifesto](MANIFESTO.md), [Roadmap](ROADMAP.md), [Contribution guide](CONTRIBUTING.md), and [Apache 2.0 License](LICENSE).
+
+> **Evidence matters:** The industrial scenarios below are synthetic, and simulated adapters are not measurements of real provider performance. The current benchmark is a starting point, not a validated claim of environmental savings.
+
+---
+
+## Demonstrator 01 — Industrial AI benchmark
+
+The repository's first demonstrator is a side-by-side industrial AI benchmark proof of concept built around one simple hypothesis:
 
 > **Agents should spend tokens on reasoning, not on deterministic data reduction.**
 
