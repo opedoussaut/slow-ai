@@ -1,0 +1,41 @@
+name: Experiment proposal
+description: Propose an evidence-based AI versus non-AI comparison
+title: "[Experiment] "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and decision
+      description: What outcome matters, for whom, and what decision will the experiment inform?
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Non-AI baseline
+      description: What is the simplest credible non-AI approach?
+    validations:
+      required: true
+  - type: textarea
+    id: ai
+    attributes:
+      label: Candidate AI approaches
+      description: Include a minimum-sufficient option and escalation criteria.
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Success criteria and metrics
+      description: Quality, error, latency, cost, compute/energy where measurable, and safety/privacy constraints.
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data provenance and reproducibility
+      description: Describe licensing, synthetic or real data, splits, controls and confounders.
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Risks, uncertainty and limitations
+      description: Identify risks, human oversight and claims that cannot be supported.
