@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SlowAI video</title>
+<style>
+@font-face { font-family: "Archivo"; font-weight: 100 900; font-stretch: 62% 125%;
+  src: url("/story/fonts/archivo-latin-standard-normal.woff2") format("woff2-variations"); unicode-range: U+0000-00FF, U+2000-206F, U+2190-2193, U+2212; }
+@font-face { font-family: "Archivo"; font-weight: 100 900; font-stretch: 62% 125%;
+  src: url("/story/fonts/archivo-latin-ext-standard-normal.woff2") format("woff2-variations"); unicode-range: U+0100-02FF; }
+html, body { margin: 0; background: #06142a; }
+canvas { display: block; width: 1920px; height: 1080px; }
+</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script type="module">
+const W = 1920, H = 1080;
+const cv = document.getElementById("c");
+const ctx = cv.getContext("2d");
+const B = await (await fetch("/story/data/scenario-v1.json")).json();
+const steel = await (await fetch("/challenge/evidence/steel-v1.json")).json();
+const V = B.variants.main;
+const fmt = new Intl.NumberFormat("en-GB");
+
+// ---------- palette (blue first) ----------
+const C = {
+  night: "#06142a", deep: "#0a2142", navy: "#0f2c57", blue: "#1f63c6", bright: "#6fb0ff", ice: "#dce8f6",
+  mute: "#9fb7d4", amber: "#f0a43c", teal: "#2bb59a", slate: "#8798ab", white: "#f4f8fc",
+};
+const FONT = (w, size, stretch = 100) => `${w} ${size}px Archivo`;
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+function hash(n) { n = (n ^ 61) ^ (n >>> 16); n = n + (n << 3); n = n ^ (n >>> 4); n = Math.imul(n, 0x27d4eb2d); n = n ^ (n >>> 15); return (n >>> 0) / 4294967296; }
+function text(str, x, y, { size = 40, weight = 500, color = C.ice, align = "left", alpha = 1, stretch = "normal", maxW } = {}) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = "alphabetic";
+  ctx.font = `${weight} ${size}px Archivo`;
+  if (ctx.fontStretch !== undefined) ctx.fontStretch = stretch;
+  if (maxW) wrap(str, x, y, maxW, size * 1.25); else ctx.fillText(str, x, y);
+  ctx.restore();
+}
+function wrap(str, x, y, maxW, lh) {
+  const words = str.split(" "); let line = ""; let yy = y;
+  for (const w of words) { const test = line ? line + " " + w : w; if (ctx.measureText(test).width > maxW && line) { ctx.fillText(line, x, yy); line = w; yy += lh; } else line = test; }
+  if (line) ctx.fillText(line, x, yy);
+  return yy;
+}
+function rrect(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function panel(x, y, w, h, { alpha = 1, fill = "rgba(15,44,87,.72)", stroke = "rgba(111,176,255,.35)", r = 18 } = {}) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 18;
+  rrect(x, y, w, h, r); ctx.fillStyle = fill; ctx.fill(); ctx.shadowColor = "transparent"; ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+}
+function badge(label, x, y, color, alpha = 1) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.font = `600 22px Archivo`; const w = ctx.measureText(label).width + 44;
+  rrect(x, y - 28, w, 38, 8); ctx.fillStyle = "rgba(6,20,42,.6)"; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(x + 16, y - 9, 5, 0, 7); ctx.fillStyle = color; ctx.fill();
+  ctx.fillStyle = color; ctx.fillText(label, x + 30, y); ctx.restore(); return w;
+}
+
+// ---------- isometric data hall ----------
+const ISO = { cx: 860, cy: 540, s: 46 };
+const P = (x, y, z = 0) => [ISO.cx + (x - y) * 0.866 * ISO.s, ISO.cy + (x + y) * 0.5 * ISO.s - z * ISO.s];
+function poly(pts, fill, stroke) { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.strokeStyle = stroke; ctx.stroke(); } }
+function floor(alpha) {
+  ctx.save(); ctx.globalAlpha = alpha;
+  const g = ctx.createRadialGradient(960, 620, 50, 960, 620, 1100); g.addColorStop(0, "#123a70"); g.addColorStop(1, "#040d1d");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = "rgba(111,176,255,.10)"; ctx.lineWidth = 1;
+  for (let i = -14; i <= 14; i++) { let [a, b] = [P(i, -14), P(i, 14)]; ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b); ctx.stroke(); [a, b] = [P(-14, i), P(14, i)]; ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b); ctx.stroke(); }
+  ctx.restore();
+}
+function rack(x, y, t, { fault = 0, id = 0, alpha = 1, highlight = 0 } = {}) {
+  const w = 0.62, d = 1.05, h = 2.4;
+  ctx.save(); ctx.globalAlpha *= alpha;
+  const top = [P(x, y, h), P(x + w, y, h), P(x + w, y + d, h), P(x, y + d, h)];
+  const front = [P(x + w, y, 0), P(x + w, y + d, 0), P(x + w, y + d, h), P(x + w, y, h)];
+  const side = [P(x, y + d, 0), P(x + w, y + d, 0), P(x + w, y + d, h), P(x, y + d, h)];
+  // contact shadow
+  poly([P(x - .1, y - .1), P(x + w + .5, y - .1), P(x + w + .5, y + d + .5), P(x - .1, y + d + .5)], "rgba(0,0,0,.32)");
+  const gf = ctx.createLinearGradient(...front[3], ...front[1]); gf.addColorStop(0, "#1c3c66"); gf.addColorStop(1, "#0b1d38");
+  poly(front, gf, "rgba(111,176,255,.25)");
+  const gs = ctx.createLinearGradient(...side[3], ...side[0]); gs.addColorStop(0, "#132c50"); gs.addColorStop(1, "#071429");
+  poly(side, gs, "rgba(111,176,255,.18)");
+  poly(top, "#28507f", "rgba(160,205,255,.35)");
+  // server units with LEDs on the front face
+  for (let u = 0; u < 9; u++) {
+    const z0 = 0.25 + u * 0.23;
+    const a = P(x + w, y + 0.08, z0), b = P(x + w, y + d - 0.08, z0), c = P(x + w, y + d - 0.08, z0 + 0.16), dd = P(x + w, y + 0.08, z0 + 0.16);
+    poly([a, b, c, dd], "rgba(6,16,32,.85)", "rgba(111,176,255,.12)");
+    for (let k = 0; k < 3; k++) {
+      const on = hash(id * 97 + u * 13 + k + Math.floor(t * 6 + hash(id + u) * 8)) > 0.35;
+      const [lx, ly] = P(x + w, y + 0.2 + k * 0.1, z0 + 0.08);
+      const col = fault > 0.5 && k === 0 ? C.amber : C.bright;
+      ctx.fillStyle = on ? col : "rgba(111,176,255,.15)";
+      if (on) { ctx.shadowColor = col; ctx.shadowBlur = 10; }
+      ctx.fillRect(lx - 3, ly - 2, 6, 4); ctx.shadowBlur = 0;
+    }
+  }
+  if (highlight > 0) {
+    ctx.save(); ctx.globalAlpha *= highlight; ctx.shadowColor = C.amber; ctx.shadowBlur = 40; ctx.lineWidth = 4; poly(front, null, C.amber); poly(top, null, C.amber); ctx.restore();
+  }
+  ctx.restore();
+}
+function pipe(points, t, { color = C.bright, speed = 1, alpha = 1, width = 10, slow = 0 } = {}) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+  ctx.strokeStyle = "rgba(20,60,110,.95)"; ctx.lineWidth = width + 6; ctx.stroke();
+  ctx.strokeStyle = "rgba(111,176,255,.25)"; ctx.lineWidth = width; ctx.stroke();
+  ctx.setLineDash([10, 26]); ctx.lineDashOffset = -t * 120 * speed * (1 - slow);
+  ctx.strokeStyle = color; ctx.lineWidth = width * 0.5; ctx.shadowColor = color; ctx.shadowBlur = 16; ctx.stroke();
+  ctx.restore();
+}
+function hall(t, { fault = 0, alpha = 1, zoom = 1 } = {}) {
+  ctx.save(); ctx.globalAlpha = alpha;
+  ctx.translate(960, 560); ctx.scale(zoom, zoom); ctx.translate(-960, -560);
+  floor(1);
+  const racks = [];
+  for (let i = 0; i < 12; i++) racks.push({ x: -4.2, y: -6 + i * 1.08, id: i + 1 });
+  for (let i = 0; i < 12; i++) racks.push({ x: 0.9, y: -6 + i * 1.08, id: i + 13 });
+  // supply manifolds above each row
+  pipe([P(-3.9, -6.5, 3.1), P(-3.9, 7.2, 3.1)], t, { alpha: 0.95 });
+  pipe([P(1.2, -6.5, 3.1), P(1.2, 7.2, 3.1)], t, { alpha: 0.95 });
+  pipe([P(-3.9, -6.5, 3.1), P(-3.9, -8, 3.1), P(1.2, -8, 3.1), P(1.2, -6.5, 3.1)], t, { alpha: 0.9 });
+  for (const r of racks) {
+    const isTarget = r.id === 7;
+    const f = isTarget ? fault : 0;
+    rack(r.x, r.y, t, { fault: f, id: r.id, highlight: isTarget ? f : 0 });
+    // branch drop pipe
+    const top = P(r.x + 0.3, r.y + 0.5, 2.4), man = P(r.x + 0.3, r.y + 0.5, 3.1);
+    pipe([man, top], t, { color: isTarget && fault > 0.5 ? C.amber : C.bright, width: 6, slow: isTarget ? fault * 0.75 : 0 });
+  }
+  // CDU box
+  const cx = -1.6, cy = 8.2;
+  poly([P(cx, cy, 0), P(cx + 2.2, cy, 0), P(cx + 2.2, cy, 1.6), P(cx, cy, 1.6)], "#123462", "rgba(111,176,255,.3)");
+  poly([P(cx, cy, 1.6), P(cx + 2.2, cy, 1.6), P(cx + 2.2, cy + 1, 1.6), P(cx, cy + 1, 1.6)], "#285a92", "rgba(160,205,255,.35)");
+  poly([P(cx + 2.2, cy, 0), P(cx + 2.2, cy + 1, 0), P(cx + 2.2, cy + 1, 1.6), P(cx + 2.2, cy, 1.6)], "#0c2547", "rgba(111,176,255,.25)");
+  const [lx, ly] = P(cx + 1.1, cy, 1.1); text("CDU-A", lx, ly, { size: 22, weight: 600, color: C.mute, align: "center" });
+  if (fault > 0.3) { const [tx, ty] = P(-3.9, 0.9, 3.9); text("R07", tx + 30, ty - 20, { size: 34, weight: 700, color: C.amber, alpha: fault }); }
+  ctx.restore();
+}
+
+// ---------- falling records (data overload) ----------
+function records(t, alpha, collapse = 0) {
+  ctx.save(); ctx.globalAlpha = alpha;
+  const N = 2600;
+  for (let i = 0; i < N; i++) {
+    const hx = hash(i * 3 + 1), hy = hash(i * 7 + 2), hs = hash(i * 11 + 3);
+    let x = hx * W, y = ((hy * H * 1.4 + t * (120 + hs * 260)) % (H * 1.4)) - H * 0.2;
+    if (collapse > 0) { // funnel toward the ledger column on the right
+      const kept = i % 160 === 0;
+      const tx = 1500 + (hash(i) - 0.5) * 40, ty = 300 + (i % 17) * 36;
+      const k = ease(collapse);
+      if (!kept) { ctx.globalAlpha = alpha * (1 - k); }
+      else ctx.globalAlpha = alpha;
+      x = lerp(x, kept ? tx : 960 + (hx - 0.5) * 200, k); y = lerp(y, kept ? ty : 540 + (hy - 0.5) * 100, k);
+    }
+    ctx.fillStyle = hs > 0.97 ? C.amber : hs > 0.6 ? C.bright : "rgba(159,183,212,.8)";
+    ctx.fillRect(x, y, 3 + hs * 9, 2);
+  }
+  ctx.restore();
+}
+
+// ---------- scenes ----------
+const T = { s1: 0, s2: 10, s3: 20, s4: 35, s5: 45, s6: 58, s7: 70, s8: 80, end: 90 };
+const CAPTIONS = [
+  [0.5, 10, "I'm increasingly convinced that the expensive mistake in industrial AI isn't choosing the wrong model. It's using a model where none was needed."],
+  [10, 20, "An AI Factory produces more data in an hour than any person, or any language model, should read. One cooling branch is going wrong."],
+  [20, 35, "SlowAI does the deterministic work first. It filters, correlates and condenses, and it keeps the provenance."],
+  [35, 45, "Some questions are rules and arithmetic. They need software, not intelligence."],
+  [45, 58, "When there is uncertainty, a small model that knows how sure it is goes first. When it isn't sure enough, we escalate to a model trained for that one task."],
+  [58, 70, "Only genuinely ambiguous, cross-domain trade-offs justify a frontier model. Even then, it reasons on curated evidence, not the raw stream."],
+  [70, 80, "What comes out is an engineering decision, with its evidence, its route and its approver. A human still signs it."],
+  [80, 89.5, "The interesting question isn't how much AI we can use. It's how little we need for a decision we can trust."],
+];
+function caption(t) {
+  const c = CAPTIONS.find(([a, b]) => t >= a && t < b); if (!c) return;
+  const a = Math.min(seg(t, c[0], c[0] + 0.5), 1 - seg(t, c[1] - 0.4, c[1]));
+  ctx.save(); ctx.globalAlpha = a; ctx.font = `500 34px Archivo`;
+  const g = ctx.createLinearGradient(0, H - 210, 0, H); g.addColorStop(0, "rgba(4,12,26,0)"); g.addColorStop(0.45, "rgba(4,12,26,.82)"); g.addColorStop(1, "rgba(4,12,26,.92)");
+  ctx.fillStyle = g; ctx.fillRect(0, H - 210, W, 210);
+  ctx.fillStyle = C.white; ctx.textAlign = "center"; wrapCenter(c[2], 960, H - 110, 1500, 46); ctx.restore();
+}
+function wrapCenter(str, x, y, maxW, lh) {
+  const words = str.split(" "), lines = []; let line = "";
+  for (const w of words) { const tt = line ? line + " " + w : w; if (ctx.measureText(tt).width > maxW && line) { lines.push(line); line = w; } else line = tt; }
+  lines.push(line); const y0 = y - ((lines.length - 1) * lh) / 2; lines.forEach((l, i) => ctx.fillText(l, x, y0 + i * lh));
+}
+function label(t) { // persistent honesty label
+  badge("Reproducible simulation · illustrative visuals", 60, 70, C.bright, 0.9);
+}
+
+function scene1(t) {
+  const k = seg(t, 0, 1.2);
+  const g = ctx.createRadialGradient(960, 480, 40, 960, 480, 1200); g.addColorStop(0, "#0f3166"); g.addColorStop(1, C.night);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  records(t * 0.3, 0.25 * k);
+  text("Ƨ", 860, 330, { size: 150, weight: 760, color: C.bright, align: "right", alpha: k });
+  text("lowAI", 870, 330, { size: 150, weight: 760, color: C.white, alpha: k });
+  const k2 = ease(seg(t, 2, 3.2)), k3 = ease(seg(t, 4.5, 5.7));
+  text("Most AI projects start with:", 960, 470, { size: 40, color: C.mute, align: "center", alpha: k2 });
+  text("“Which model?”", 960, 545, { size: 64, weight: 400, color: C.slate, align: "center", alpha: k2 });
+  text("ƧlowAI starts with:", 960, 650, { size: 40, color: C.mute, align: "center", alpha: k3 });
+  text("“What does this decision actually need?”", 960, 735, { size: 72, weight: 700, color: C.white, align: "center", alpha: k3 });
+}
+function scene2(t) {
+  const lt = t - T.s2;
+  const fault = ease(seg(lt, 4, 7));
+  hall(t, { fault, zoom: lerp(1.08, 1, ease(seg(lt, 0, 10))) });
+  records(t, 0.55 * (1 - seg(lt, 8.5, 10)));
+  panel(1300, 150, 540, 210, { alpha: ease(seg(lt, 1, 2)) });
+  text(fmt.format(V.raw.total), 1340, 250, { size: 84, weight: 760, color: C.white, alpha: ease(seg(lt, 1, 2)) });
+  text("records in one simulated day", 1340, 305, { size: 30, color: C.mute, alpha: ease(seg(lt, 1, 2)) });
+  if (fault > 0) { panel(1300, 390, 540, 150, { alpha: fault, stroke: "rgba(240,164,60,.6)" });
+    text("R07 coolant flow falling", 1340, 455, { size: 34, weight: 700, color: C.amber, alpha: fault });
+    text(`−${V.features.flow_drop_pct.toFixed(0)}% vs baseline by ${B.decision_time}`, 1340, 505, { size: 28, color: C.ice, alpha: fault }); }
+}
+function scene3(t) {
+  const lt = t - T.s3;
+  hall(t, { fault: 1, alpha: 1 - ease(seg(lt, 0, 2)) * 0.75 });
+  ctx.fillStyle = `rgba(4,12,26,${0.55 * ease(seg(lt, 0, 2))})`; ctx.fillRect(0, 0, W, H);
+  records(t, 0.8, seg(lt, 2, 9));
+  const stages = V.curation.stages;
+  const x0 = 120, y0 = 230;
+  text("Curate first", x0, 170, { size: 60, weight: 760, color: C.white, alpha: ease(seg(lt, 0.5, 1.5)) });
+  stages.forEach((s, i) => {
+    const a = ease(seg(lt, 2 + i * 1.3, 3 + i * 1.3));
+    const y = y0 + i * 112;
+    panel(x0, y, 820, 92, { alpha: a, r: 12 });
+    text(i === stages.length - 1 ? "Evidence ledger" : s.stage, x0 + 28, y + 56, { size: 32, weight: 700, color: C.white, alpha: a });
+    const unit = i >= 4 ? (i === stages.length - 1 ? "items" : "episodes") : "records";
+    text(`${fmt.format(Math.round(s.kept * a))} ${unit}`, x0 + 790, y + 58, { size: 36, weight: 760, color: i === stages.length - 1 ? C.bright : C.ice, align: "right", alpha: a });
+  });
+  const ka = ease(seg(lt, 10.5, 11.5));
+  panel(1080, 180, 740, 380, { alpha: ka });
+  text("Fault evidence kept", 1120, 250, { size: 32, color: C.mute, alpha: ka });
+  text(`${V.recall.retained} of ${V.recall.fault_effects}`, 1120, 340, { size: 96, weight: 760, color: C.white, alpha: ka });
+  text(`${(V.raw.bytes_json / 1e6).toFixed(1)} MB  →  ${(V.curation.ledger_bytes_json / 1e3).toFixed(1)} KB`, 1120, 430, { size: 44, weight: 700, color: C.bright, alpha: ka });
+  text("every item linked to its source records", 1120, 490, { size: 28, color: C.mute, alpha: ka });
+}
+function routeHeader(n, name, color, a) { text(`Route ${n}`, 160, 200, { size: 34, weight: 700, color, alpha: a }); text(name, 160, 290, { size: 84, weight: 760, color: C.white, alpha: a }); }
+function bars(x, y, w, probs, labels, color, a, thr) {
+  probs.forEach((p, i) => {
+    const yy = y + i * 74;
+    text(labels[i], x, yy + 26, { size: 30, color: C.ice, alpha: a });
+    ctx.save(); ctx.globalAlpha = a; rrect(x + 330, yy, w, 34, 6); ctx.fillStyle = "rgba(111,176,255,.14)"; ctx.fill();
+    rrect(x + 330, yy, Math.max(2, w * p * a), 34, 6); ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 14; ctx.fill(); ctx.restore();
+    text(p.toFixed(2), x + 350 + w, yy + 28, { size: 30, weight: 700, color: C.white, alpha: a });
+    if (thr != null) { ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = C.amber; ctx.fillRect(x + 330 + w * thr - 2, yy - 8, 4, 50); ctx.restore(); }
+  });
+}
+function predict(m, f) { const xs = m.features.map((k, j) => (f[k] - m.mean[j]) / m.scale[j]); const z = m.bias.map((b, c) => m.weights[c].reduce((s, w, j) => s + w * xs[j], b)); const mx = Math.max(...z); const e = z.map((v) => Math.exp(v - mx)); const s = e.reduce((a, b) => a + b); return e.map((v) => v / s); }
+function bg(t) { const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#0b2650"); g.addColorStop(1, "#040d1d"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); records(t * 0.2, 0.08); }
+function scene4(t) {
+  const lt = t - T.s4; bg(t);
+  const a = ease(seg(lt, 0, 1));
+  routeHeader(1, "No AI", C.slate, a);
+  text("Is coolant supply above its limit?", 160, 380, { size: 48, weight: 600, color: C.ice, alpha: a });
+  // gauge
+  const k = ease(seg(lt, 1.5, 4));
+  const cx = 1340, cy = 600, r = 300, lim = B.supply_limit_c, val = V.supply_c_now;
+  const ang = (v) => Math.PI * (1 + v / 40);
+  ctx.save(); ctx.globalAlpha = a; ctx.lineWidth = 34; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI); ctx.strokeStyle = "rgba(111,176,255,.15)"; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI, ang(val * k)); ctx.strokeStyle = C.bright; ctx.shadowColor = C.bright; ctx.shadowBlur = 24; ctx.stroke(); ctx.shadowBlur = 0;
+  ctx.beginPath(); ctx.arc(cx, cy, r, ang(lim) - 0.01, ang(lim) + 0.01); ctx.strokeStyle = C.amber; ctx.lineWidth = 60; ctx.stroke(); ctx.restore();
+  text(`${(val * k).toFixed(1)} °C`, cx, cy - 40, { size: 96, weight: 760, color: C.white, align: "center", alpha: a });
+  text(`limit ${lim} °C`, cx, cy + 20, { size: 32, color: C.amber, align: "center", alpha: a });
+  const k2 = ease(seg(lt, 4.5, 5.5));
+  text("No. Within the limit.", 160, 520, { size: 64, weight: 760, color: C.white, alpha: k2 });
+  text("A trusted sensor and an approved threshold.", 160, 590, { size: 36, color: C.mute, alpha: k2 });
+  text("0 parameters · exact · instant", 160, 650, { size: 36, color: C.bright, alpha: k2 });
+}
+function scene5(t) {
+  const lt = t - T.s5; bg(t);
+  const m = B.models, f = V.features, L = B.class_labels, cls = m.compact_fault.classes.map((c) => L[c]);
+  const pAct = predict(m.actionable, f), comp = predict(m.compact_fault, f), spec = predict(m.specialized_fault, f);
+  const phase2 = lt >= 5;
+  if (!phase2) {
+    const a = ease(seg(lt, 0, 1)) * (1 - seg(lt, 4.4, 5));
+    routeHeader(2, "Decision model", C.bright, a);
+    text("Transient, or does it need action?", 160, 380, { size: 48, weight: 600, color: C.ice, alpha: a });
+    bars(160, 470, 900, [pAct[0], pAct[1]], ["Transient", "Needs action"], C.blue, a * ease(seg(lt, 1, 2.5)), null);
+    text(`Logistic model · ${m.actionable.weights.length * (m.actionable.weights[0].length + 1)} parameters · states its confidence`, 160, 720, { size: 32, color: C.mute, alpha: a });
+  } else {
+    const l2 = lt - 5, a = ease(seg(l2, 0, 0.8));
+    text("Which fault is this?", 160, 150, { size: 56, weight: 700, color: C.white, alpha: a });
+    text("Route 2 tries first: compact model", 160, 240, { size: 34, weight: 700, color: C.bright, alpha: a });
+    bars(160, 280, 440, comp, cls, C.blue, a * ease(seg(l2, 0.5, 1.8)), 0.8);
+    const e = ease(seg(l2, 2.5, 3.3));
+    text(`Best guess ${Math.max(...comp).toFixed(2)} < required 0.80  →  escalate`, 160, 610, { size: 36, weight: 700, color: C.amber, alpha: e });
+    const s = ease(seg(l2, 4, 5));
+    text("Route 3 · Specialized model", 1140, 240, { size: 34, weight: 700, color: C.teal, alpha: s });
+    bars(1140, 280, 300, spec, cls, C.teal, s * ease(seg(l2, 4.5, 6)), null);
+    text("Reads valve, pressure and pump behaviour", 1140, 610, { size: 30, color: C.mute, alpha: s });
+  }
+}
+function scene6(t) {
+  const lt = t - T.s6; bg(t);
+  const a = ease(seg(lt, 0, 1));
+  routeHeader(4, "Frontier model", C.amber, a);
+  text("Drain R07 now, or wait for the 02:00 maintenance window?", 160, 380, { size: 46, weight: 600, color: C.ice, alpha: a, maxW: 1100 });
+  // two inputs: raw (crossed) vs curated
+  const k = ease(seg(lt, 2, 3.5));
+  panel(160, 520, 640, 200, { alpha: k, stroke: "rgba(159,183,212,.3)" });
+  text("Raw day", 200, 590, { size: 34, weight: 700, color: C.slate, alpha: k });
+  text(`${(V.raw.bytes_json / 1e6).toFixed(1)} MB · ${fmt.format(V.raw.total)} records`, 200, 650, { size: 32, color: C.slate, alpha: k });
+  ctx.save(); ctx.globalAlpha = k; ctx.strokeStyle = C.slate; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(180, 700); ctx.lineTo(780, 540); ctx.stroke(); ctx.restore();
+  const k2 = ease(seg(lt, 4, 5.5));
+  panel(880, 520, 640, 200, { alpha: k2, stroke: "rgba(111,176,255,.7)" });
+  text("Curated evidence", 920, 590, { size: 34, weight: 700, color: C.bright, alpha: k2 });
+  text(`${(V.curation.ledger_bytes_json / 1e3).toFixed(1)} KB · ${V.curation.ledger.length} items`, 920, 650, { size: 32, color: C.ice, alpha: k2 });
+  const k3 = ease(seg(lt, 7, 8));
+  badge("Not run in this demonstration · the approver decides", 160, 820, C.amber, k3);
+}
+function scene7(t) {
+  const lt = t - T.s7; bg(t);
+  const a = ease(seg(lt, 0, 1));
+  panel(260, 110, 1400, 720, { alpha: a, stroke: C.bright, fill: "rgba(10,33,66,.92)" });
+  text("Decision record · cooling loop A · rack R07", 320, 210, { size: 44, weight: 760, color: C.white, alpha: a });
+  const rows = [
+    ["Situation", `Flow −${V.features.flow_drop_pct.toFixed(0)}%, return +${V.features.return_rise_c.toFixed(1)} °C, GPU throttling`],
+    ["Most likely cause", "Branch restriction (route 3, after escalation)"],
+    ["Proposed action", "Reduce load on R07; inspect branch strainer and valve"],
+    ["Conflict", "Secondary flow meter stuck since 15:42 — excluded"],
+    ["Open question", "Drain now or wait — for the approver"],
+    ["Approval", "Required: Infrastructure Operations"],
+  ];
+  rows.forEach(([k, v], i) => {
+    const ra = ease(seg(lt, 1 + i * 0.9, 1.8 + i * 0.9)), y = 290 + i * 88;
+    text(k, 320, y, { size: 30, weight: 600, color: C.mute, alpha: ra });
+    text(v, 700, y, { size: 32, weight: i === 5 ? 760 : 500, color: i === 5 ? C.amber : C.white, alpha: ra });
+  });
+}
+function scene8(t) {
+  const lt = t - T.s8; bg(t);
+  const a = ease(seg(lt, 0, 1)) * (1 - seg(lt, 6.2, 7));
+  const routes = [["1", "No AI", C.slate], ["2", "Decision model", C.bright], ["3", "Specialized", C.teal], ["4", "Frontier", C.amber]];
+  routes.forEach(([n, name, col], i) => {
+    const ra = a * ease(seg(lt, 0.3 + i * 0.3, 1 + i * 0.3)), x = 160 + i * 410;
+    panel(x, 160, 370, 200, { alpha: ra, stroke: col });
+    text(`Route ${n}`, x + 30, 225, { size: 28, weight: 700, color: col, alpha: ra });
+    text(name, x + 30, 290, { size: 40, weight: 760, color: C.white, alpha: ra });
+    text(i === 3 ? "at last" : i === 0 ? "first" : "", x + 30, 335, { size: 26, color: C.mute, alpha: ra });
+  });
+  const sa = a * ease(seg(lt, 2, 3));
+  panel(160, 430, 1600, 300, { alpha: sa, stroke: "rgba(70,190,120,.6)" });
+  badge("Measured · public UCI steel-fault dataset", 200, 500, "#5fd394", sa);
+  text("Always the most frequent fault", 200, 590, { size: 32, color: C.ice, alpha: sa });
+  text(`${(100 * steel.results.majority_class_non_ai.accuracy).toFixed(1)}%`, 1000, 590, { size: 44, weight: 760, color: C.white, alpha: sa });
+  text("3-nearest-neighbour classifier", 200, 670, { size: 32, color: C.ice, alpha: sa });
+  text(`${(100 * steel.results.knn_3.accuracy).toFixed(1)}%`, 1000, 670, { size: 44, weight: 760, color: C.white, alpha: sa });
+  text(`${steel.test_count} held-out plates · energy and cost: not measured`, 1200, 630, { size: 28, color: C.mute, alpha: sa, maxW: 520 });
+  const e = ease(seg(lt, 6.5, 7.5));
+  ctx.fillStyle = `rgba(4,12,26,${e})`; ctx.fillRect(0, 0, W, H);
+  text("Ƨ", 860, 470, { size: 150, weight: 760, color: C.bright, align: "right", alpha: e });
+  text("lowAI", 870, 470, { size: 150, weight: 760, color: C.white, alpha: e });
+  text("Think first. AI when it matters.", 960, 580, { size: 60, weight: 600, color: C.ice, align: "center", alpha: e });
+  text("Open by nature. Lean by design.  ·  opedoussaut.github.io/slow-ai", 960, 660, { size: 32, color: C.mute, align: "center", alpha: e });
+}
+
+function render(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.clearRect(0, 0, W, H);
+  const scenes = [[T.s1, scene1], [T.s2, scene2], [T.s3, scene3], [T.s4, scene4], [T.s5, scene5], [T.s6, scene6], [T.s7, scene7], [T.s8, scene8]];
+  let idx = scenes.findLastIndex(([s]) => t >= s);
+  scenes[idx][1](t);
+  // dip from the night colour at each scene change
+  const start = scenes[idx][0];
+  if (idx > 0 && t - start < 0.5) { ctx.save(); ctx.globalAlpha = 1 - (t - start) / 0.5; ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  const next = scenes[idx + 1]?.[0] ?? T.end;
+  if (next - t < 0.35) { ctx.save(); ctx.globalAlpha = 1 - (next - t) / 0.35; ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  if (t > 0.5 && t < 88) label(t);
+  caption(t);
+}
+await document.fonts.ready;
+await document.fonts.load("700 40px Archivo");
+window.__render = (t) => render(t);
+window.__ready = true;
+render(0);
+</script></body></html>
