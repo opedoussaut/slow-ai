@@ -1,0 +1,27 @@
+name: Steel evidence explorer browser test
+on:
+  pull_request:
+    paths:
+      - 'challenge/steel.html'
+      - 'challenge/steel-smoke.test.mjs'
+      - '.github/workflows/steel-explorer.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/steel.html'
+      - 'challenge/steel-smoke.test.mjs'
+      - '.github/workflows/steel-explorer.yml'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm install --no-save playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - run: node --test challenge/steel-smoke.test.mjs
