@@ -16,7 +16,7 @@ test('steel explorer loads and validates real evidence locally', async () => {
     await page.locator('#file').setInputFiles({
       name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{}')
     });
-    assert.match(await page.locator('#status').textContent(),/Unable to load evidence/);
+    await page.locator('#status').getByText(/Unable to load evidence/).waitFor();
     assert.equal(await page.locator('#results').isVisible(),false);
     const classes=['Pastry','Z_Scratch','K_Scatch','Stains','Dirtiness','Bumps','Other_Faults'];
     const metrics=Object.fromEntries(classes.map(c=>[c,{support:1,precision:1,recall:1,f1:1}]));
