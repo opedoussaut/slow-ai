@@ -1,0 +1,37 @@
+name: Publish verified steel evidence snapshot
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'challenge/steel_benchmark.py'
+      - 'challenge/evidence/steel-v1.json'
+      - '.github/workflows/steel-snapshot.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate from official UCI source
+        run: python -m challenge.steel_benchmark --download --output /tmp/steel-v1.json
+      - name: Verify committed snapshot against regenerated evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path('challenge/evidence/steel-v1.json').read_text())
+          actual=json.loads(Path('/tmp/steel-v1.json').read_text())
+          assert expected['source_sha256']==actual['source_sha256'], 'Source archive has changed'
+          for key in ['dataset_size','train_count','test_count','classes','features','split']:
+              assert expected[key]==actual[key], key
+          for model in ['majority_class_non_ai','knn_3']:
+              for metric in ['accuracy','macro_f1','correct','total','per_class','predictions']:
+                  assert expected['results'][model][metric]==actual['results'][model][metric], (model,metric)
+          print('Snapshot verified; timing excluded as environment-dependent')
+          PY
