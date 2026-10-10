@@ -5,7 +5,7 @@ This roadmap is a proposal, not a delivery commitment.
 ## Phase 0 — Open foundation
 - [x] Draft mission and manifesto
 - [x] Draft contribution guidance and Claude Code instructions
-- [ ] Select and add a repository-wide open-source license (maintainer decision)
+- [x] Select and add Apache License 2.0 (maintainer approved)
 - [ ] Audit existing content for publication rights, dependencies and company-specific terminology
 - [ ] Adopt a code of conduct and issue/PR templates
 
