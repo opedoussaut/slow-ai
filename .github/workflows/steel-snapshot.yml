@@ -1,6 +1,10 @@
 name: Generate verified steel evidence snapshot
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/steel-snapshot.yml'
 permissions:
   contents: write
   pull-requests: write
