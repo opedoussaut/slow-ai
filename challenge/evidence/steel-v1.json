@@ -1,0 +1,4050 @@
+{
+  "experiment": "UCI Steel Plates Faults 7-class classification",
+  "source": "https://archive.ics.uci.edu/static/public/198/steel+plates+faults.zip",
+  "citation": "Buscema, M., Terzi, S., & Tastle, W. (2010). Steel Plates Faults. UCI ML Repository. DOI:10.24432/C5J88N",
+  "license": "CC BY 4.0",
+  "source_sha256": "cb8eb9859198b63f053e443513036b401746fa517ef58bd17c846c6741c93919",
+  "dataset_size": 1941,
+  "train_count": 1553,
+  "test_count": 388,
+  "split": "stratified 80/20; seed 20261010; test not used for fitting",
+  "features": [
+    "X_Minimum",
+    "X_Maximum",
+    "Y_Minimum",
+    "Y_Maximum",
+    "Pixels_Areas",
+    "X_Perimeter",
+    "Y_Perimeter",
+    "Sum_of_Luminosity",
+    "Minimum_of_Luminosity",
+    "Maximum_of_Luminosity",
+    "Length_of_Conveyer",
+    "TypeOfSteel_A300",
+    "TypeOfSteel_A400",
+    "Steel_Plate_Thickness",
+    "Edges_Index",
+    "Empty_Index",
+    "Square_Index",
+    "Outside_X_Index",
+    "Edges_X_Index",
+    "Edges_Y_Index",
+    "Outside_Global_Index",
+    "LogOfAreas",
+    "Log_X_Index",
+    "Log_Y_Index",
+    "Orientation_Index",
+    "Luminosity_Index",
+    "SigmoidOfAreas"
+  ],
+  "classes": [
+    "Pastry",
+    "Z_Scratch",
+    "K_Scatch",
+    "Stains",
+    "Dirtiness",
+    "Bumps",
+    "Other_Faults"
+  ],
+  "results": {
+    "majority_class_non_ai": {
+      "accuracy": 0.3479381443298969,
+      "macro_f1": 0.07375034143676591,
+      "correct": 135,
+      "total": 388,
+      "per_class": {
+        "Pastry": {
+          "support": 32,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "Z_Scratch": {
+          "support": 38,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "K_Scatch": {
+          "support": 78,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "Stains": {
+          "support": 14,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "Dirtiness": {
+          "support": 11,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "Bumps": {
+          "support": 80,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        "Other_Faults": {
+          "support": 135,
+          "precision": 0.3479381443298969,
+          "recall": 1,
+          "f1": 0.5162523900573613
+        }
+      },
+      "wall_ms_per_case": null,
+      "predictions": [
+        {
+          "id": 5,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 7,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 19,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 23,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 25,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 29,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 30,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 31,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 33,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 46,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 47,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 58,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 61,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 64,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 79,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 81,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 86,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 97,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 98,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 99,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 107,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 120,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 121,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 123,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 124,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 136,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 137,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 144,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 146,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 150,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 151,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 154,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 162,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 163,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 177,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 179,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 183,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 188,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 190,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 198,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 200,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 201,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 202,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 204,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 211,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 212,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 214,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 218,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 225,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 234,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 243,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 246,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 248,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 250,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 256,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 257,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 260,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 273,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 284,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 286,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 292,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 303,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 307,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 309,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 310,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 329,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 332,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 334,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 345,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 348,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 361,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 362,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 365,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 367,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 370,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 374,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 375,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 384,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 387,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 388,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 390,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 393,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 401,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 411,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 412,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 417,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 421,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 427,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 439,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 442,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 448,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 450,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 452,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 459,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 462,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 467,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 470,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 472,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 473,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 488,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 496,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 499,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 502,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 505,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 516,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 526,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 533,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 534,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 537,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 543,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 557,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 565,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 571,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 581,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 585,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 587,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 592,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 596,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 611,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 614,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 617,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 619,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 620,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 621,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 622,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 623,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 629,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 630,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 631,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 644,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 650,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 655,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 659,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 660,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 663,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 667,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 683,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 688,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 689,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 691,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 697,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 699,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 703,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 705,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 710,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 732,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 733,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 737,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 743,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 747,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 753,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 767,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 771,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 781,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 782,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 786,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 788,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 791,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 796,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 800,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 803,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 805,
+          "expected": "Stains",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 812,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 815,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 824,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 827,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 833,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 837,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 839,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 849,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 851,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 855,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 859,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 881,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 882,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 883,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 895,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 923,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 945,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 947,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 954,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 956,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 963,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 965,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 968,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 969,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 971,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 979,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 982,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 987,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 992,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 993,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 998,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 999,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1012,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1018,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1021,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1024,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1030,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1036,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1042,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1044,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1046,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1047,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1048,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1049,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1058,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1062,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1067,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1072,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1073,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1077,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1080,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1090,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1097,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1098,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1101,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1102,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1103,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1106,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1108,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1109,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1110,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1111,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1112,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1119,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1122,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1125,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1132,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1140,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1141,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1146,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1147,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1148,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1152,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1167,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1181,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1188,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1192,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1201,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1207,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1210,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1215,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1218,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1223,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1229,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1234,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1238,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1244,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1262,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1265,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1266,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1267,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1269,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1270,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1277,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1287,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1288,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1294,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1295,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1308,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1326,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1328,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1330,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1331,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1338,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1341,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1349,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1351,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1355,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1359,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1361,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1367,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1372,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1377,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1381,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1385,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1387,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1388,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1393,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1398,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1401,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1404,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1408,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1410,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1411,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1413,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1414,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1423,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1425,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1442,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1450,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1453,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1454,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1462,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1465,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1466,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1498,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1504,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1508,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1516,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1519,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1526,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1530,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1533,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1534,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1539,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1542,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1546,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1549,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1557,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1571,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1572,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1575,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1579,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1598,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1607,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1615,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1620,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1623,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1624,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1625,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1626,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1639,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1642,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1649,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1652,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1655,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1656,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1657,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1663,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1665,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1672,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1674,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1681,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1683,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1684,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1687,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1691,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1692,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1693,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1694,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1698,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1704,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1705,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1706,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1712,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1717,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1720,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1730,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1735,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1747,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1757,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1762,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1764,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1773,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1775,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1780,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1782,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1787,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1788,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1790,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1792,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1797,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1807,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1815,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1817,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1822,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1832,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1834,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1838,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1849,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1856,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1859,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1862,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1865,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1868,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1869,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1887,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1906,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1911,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1924,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1927,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1933,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1934,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1938,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1939,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1940,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        }
+      ]
+    },
+    "knn_3": {
+      "accuracy": 0.6958762886597938,
+      "macro_f1": 0.6885928091807292,
+      "correct": 270,
+      "total": 388,
+      "per_class": {
+        "Pastry": {
+          "support": 32,
+          "precision": 0.40476190476190477,
+          "recall": 0.53125,
+          "f1": 0.4594594594594595
+        },
+        "Z_Scratch": {
+          "support": 38,
+          "precision": 0.7111111111111111,
+          "recall": 0.8421052631578947,
+          "f1": 0.7710843373493975
+        },
+        "K_Scatch": {
+          "support": 78,
+          "precision": 0.9342105263157895,
+          "recall": 0.9102564102564102,
+          "f1": 0.922077922077922
+        },
+        "Stains": {
+          "support": 14,
+          "precision": 0.65,
+          "recall": 0.9285714285714286,
+          "f1": 0.7647058823529412
+        },
+        "Dirtiness": {
+          "support": 11,
+          "precision": 0.75,
+          "recall": 0.5454545454545454,
+          "f1": 0.631578947368421
+        },
+        "Bumps": {
+          "support": 80,
+          "precision": 0.6190476190476191,
+          "recall": 0.65,
+          "f1": 0.6341463414634146
+        },
+        "Other_Faults": {
+          "support": 135,
+          "precision": 0.6991150442477876,
+          "recall": 0.5851851851851851,
+          "f1": 0.6370967741935484
+        }
+      },
+      "wall_ms_per_case": null,
+      "predictions": [
+        {
+          "id": 5,
+          "expected": "Pastry",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 7,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 19,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 23,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 25,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 29,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 30,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 31,
+          "expected": "Pastry",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 33,
+          "expected": "Pastry",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 46,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 47,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 58,
+          "expected": "Pastry",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 61,
+          "expected": "Pastry",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 64,
+          "expected": "Pastry",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 79,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 81,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 86,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 97,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 98,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 99,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 107,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 120,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 121,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 123,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 124,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 136,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 137,
+          "expected": "Pastry",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 144,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 146,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 150,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 151,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 154,
+          "expected": "Pastry",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 162,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 163,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 177,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 179,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 183,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 188,
+          "expected": "Z_Scratch",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 190,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 198,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 200,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 201,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 202,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 204,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 211,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 212,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 214,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 218,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 225,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 234,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 243,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 246,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 248,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 250,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 256,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 257,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 260,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 273,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 284,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 286,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 292,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 303,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 307,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 309,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 310,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 329,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 332,
+          "expected": "Z_Scratch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 334,
+          "expected": "Z_Scratch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 345,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 348,
+          "expected": "Z_Scratch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 361,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 362,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 365,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 367,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 370,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 374,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 375,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 384,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 387,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 388,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 390,
+          "expected": "K_Scatch",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 393,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 401,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 411,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 412,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 417,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 421,
+          "expected": "K_Scatch",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 427,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 439,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 442,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 448,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 450,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 452,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 459,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 462,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 467,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 470,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 472,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 473,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 488,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 496,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 499,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 502,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 505,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 516,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 526,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 533,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 534,
+          "expected": "K_Scatch",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 537,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 543,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 557,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 565,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 571,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 581,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 585,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 587,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 592,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 596,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 611,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 614,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 617,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 619,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 620,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 621,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 622,
+          "expected": "K_Scatch",
+          "predicted": "Stains"
+        },
+        {
+          "id": 623,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 629,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 630,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 631,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 644,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 650,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 655,
+          "expected": "K_Scatch",
+          "predicted": "Stains"
+        },
+        {
+          "id": 659,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 660,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 663,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 667,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 683,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 688,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 689,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 691,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 697,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 699,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 703,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 705,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 710,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 732,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 733,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 737,
+          "expected": "K_Scatch",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 743,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 747,
+          "expected": "Stains",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 753,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 767,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 771,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 781,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 782,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 786,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 788,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 791,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 796,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 800,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 803,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 805,
+          "expected": "Stains",
+          "predicted": "Stains"
+        },
+        {
+          "id": 812,
+          "expected": "Dirtiness",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 815,
+          "expected": "Dirtiness",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 824,
+          "expected": "Dirtiness",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 827,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 833,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 837,
+          "expected": "Dirtiness",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 839,
+          "expected": "Dirtiness",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 849,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 851,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 855,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 859,
+          "expected": "Dirtiness",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 881,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 882,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 883,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 895,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 923,
+          "expected": "Bumps",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 945,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 947,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 954,
+          "expected": "Bumps",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 956,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 963,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 965,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 968,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 969,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 971,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 979,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 982,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 987,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 992,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 993,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 998,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 999,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1012,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1018,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1021,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1024,
+          "expected": "Bumps",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1030,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1036,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1042,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1044,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1046,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1047,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1048,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1049,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1058,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1062,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1067,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1072,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1073,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1077,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1080,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1090,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1097,
+          "expected": "Bumps",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1098,
+          "expected": "Bumps",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1101,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1102,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1103,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1106,
+          "expected": "Bumps",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1108,
+          "expected": "Bumps",
+          "predicted": "Stains"
+        },
+        {
+          "id": 1109,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1110,
+          "expected": "Bumps",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1111,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1112,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1119,
+          "expected": "Bumps",
+          "predicted": "Stains"
+        },
+        {
+          "id": 1122,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1125,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1132,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1140,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1141,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1146,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1147,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1148,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1152,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1167,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1181,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1188,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1192,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1201,
+          "expected": "Bumps",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1207,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1210,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1215,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1218,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1223,
+          "expected": "Bumps",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1229,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1234,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1238,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1244,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1262,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1265,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1266,
+          "expected": "Bumps",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1267,
+          "expected": "Bumps",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1269,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1270,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1277,
+          "expected": "Other_Faults",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 1287,
+          "expected": "Other_Faults",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 1288,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1294,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1295,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1308,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1326,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1328,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1330,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1331,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1338,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1341,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1349,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1351,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1355,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1359,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1361,
+          "expected": "Other_Faults",
+          "predicted": "Stains"
+        },
+        {
+          "id": 1367,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1372,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1377,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1381,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1385,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1387,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1388,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1393,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1398,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1401,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1404,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1408,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1410,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1411,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1413,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1414,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1423,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1425,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1442,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1450,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1453,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1454,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1462,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1465,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1466,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1498,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1504,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1508,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1516,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1519,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1526,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1530,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1533,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1534,
+          "expected": "Other_Faults",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 1539,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1542,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1546,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1549,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1557,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1571,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1572,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1575,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1579,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1598,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1607,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1615,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1620,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1623,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1624,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1625,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1626,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1639,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1642,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1649,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1652,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1655,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1656,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1657,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1663,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1665,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1672,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1674,
+          "expected": "Other_Faults",
+          "predicted": "Dirtiness"
+        },
+        {
+          "id": 1681,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1683,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1684,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1687,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1691,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1692,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1693,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1694,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1698,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1704,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1705,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1706,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1712,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1717,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1720,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1730,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1735,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1747,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1757,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1762,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1764,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1773,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1775,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1780,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1782,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1787,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1788,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1790,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1792,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1797,
+          "expected": "Other_Faults",
+          "predicted": "Stains"
+        },
+        {
+          "id": 1807,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1815,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1817,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1822,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1832,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1834,
+          "expected": "Other_Faults",
+          "predicted": "K_Scatch"
+        },
+        {
+          "id": 1838,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1849,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1856,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1859,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1862,
+          "expected": "Other_Faults",
+          "predicted": "Bumps"
+        },
+        {
+          "id": 1865,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1868,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1869,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1887,
+          "expected": "Other_Faults",
+          "predicted": "Pastry"
+        },
+        {
+          "id": 1906,
+          "expected": "Other_Faults",
+          "predicted": "Stains"
+        },
+        {
+          "id": 1911,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1924,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1927,
+          "expected": "Other_Faults",
+          "predicted": "Z_Scratch"
+        },
+        {
+          "id": 1933,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1934,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1938,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1939,
+          "expected": "Other_Faults",
+          "predicted": "Other_Faults"
+        },
+        {
+          "id": 1940,
+          "expected": "Other_Faults",
+          "predicted": "K_Scatch"
+        }
+      ]
+    }
+  },
+  "measurements": {
+    "energy_joules": null,
+    "carbon_gco2e": null,
+    "financial_cost": null
+  },
+  "limitations": [
+    "This is 7-class fault-type classification on feature vectors; not anomaly detection or safety action.",
+    "The majority-class baseline is intentionally weak; add a meaningful domain-rule baseline before making minimum-AI claims.",
+    "Single train/test split; no tuning/validation set, confidence intervals or grouped leakage audit.",
+    "Wall-clock timing is local and not a cross-hardware performance benchmark.",
+    "Original label provenance and independent annotation quality are not established by the UCI metadata.",
+    "No frontier model, energy, CO2e or financial cost measured."
+  ]
+}

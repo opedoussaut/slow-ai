@@ -6,8 +6,7 @@ on:
     paths:
       - '.github/workflows/steel-snapshot.yml'
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -47,22 +46,3 @@ jobs:
         with:
           name: verified-steel-v1-snapshot
           path: challenge/evidence/steel-v1.json
-      - name: Open reviewable evidence PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: evidence/steel-v1-reviewed
-          delete-branch: true
-          commit-message: 'data: publish reproducible UCI steel evidence snapshot'
-          title: 'data: publish verified UCI steel benchmark snapshot'
-          body: |
-            Generated from the official UCI Steel Plates Faults archive by the
-            **Generate verified steel evidence snapshot** workflow.
-
-            Please review source SHA-256, class distribution, accuracy,
-            macro-F1, predictions, dataset license and scientific limitations.
-            Environment-dependent wall times are set to null in the published
-            snapshot; this is not an energy/carbon/cost measurement.
-
-            **Do not merge until tests and evidence review pass.**
-          add-paths: challenge/evidence/steel-v1.json
