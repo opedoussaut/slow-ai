@@ -1,0 +1,28 @@
+name: Story tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  story:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scenario is reproducible from its seed
+        run: python -m unittest discover -s story -p 'test_*.py' -t . -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test tools
+        run: |
+          npm install --no-save playwright@1.58.2 @axe-core/playwright@4
+          npx playwright install --with-deps chromium
+      - name: Browser tests (desktop, mobile, accessibility, real evidence)
+        run: node --test story/story.test.mjs

@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'story/**'
       - 'challenge/**'
       - 'assets/**'
       - '.github/workflows/pages.yml'
@@ -29,15 +30,19 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
+          mkdir -p _site/story
           cp -R challenge assets _site/
+          cp -R story/index.html story/story.css story/story.js story/models.js story/data story/fonts _site/story/
           cat > _site/index.html <<'HTML'
           <!doctype html>
           <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-          <meta http-equiv="refresh" content="0; url=challenge/slowai.html">
-          <title>ƧlowAI — Intelligence Challenge</title></head>
-          <body><p><a href="challenge/slowai.html">Open the ƧlowAI Intelligence Challenge</a></p></body></html>
+          <meta http-equiv="refresh" content="0; url=story/">
+          <title>ƧlowAI — Think first. AI when it matters.</title></head>
+          <body><p><a href="story/">Open the ƧlowAI story</a></p></body></html>
           HTML
           touch _site/.nojekyll
+          test -s _site/story/index.html
+          test -s _site/story/data/scenario-v1.json
           test -s _site/challenge/slowai.html
           test -s _site/challenge/steel.html
           test -s _site/challenge/evidence/steel-v1.json
@@ -55,3 +60,31 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Wait until the deployed root redirects to the story
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS "https://opedoussaut.github.io/slow-ai/?v=$GITHUB_SHA" | grep -q 'url=story/'; then echo "root redirect live"; exit 0; fi
+            sleep 10
+          done
+          echo "Deployed root never served the story redirect"; exit 1
+      - name: Install browser test tools
+        run: |
+          npm install --no-save playwright@1.58.2 @axe-core/playwright@4
+          npx playwright install --with-deps chromium
+      - name: Browser tests against the public site
+        env:
+          STORY_URL: https://opedoussaut.github.io/slow-ai/story/
+        run: node --test story/story.test.mjs
