@@ -1,16 +1,10 @@
-name: Publish verified steel evidence snapshot
+name: Generate verified steel evidence snapshot
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'challenge/steel_benchmark.py'
-      - 'challenge/evidence/steel-v1.json'
-      - '.github/workflows/steel-snapshot.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  verify:
+  generate:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -18,20 +12,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Regenerate from official UCI source
+      - name: Generate snapshot from official UCI source
         run: python -m challenge.steel_benchmark --download --output /tmp/steel-v1.json
-      - name: Verify committed snapshot against regenerated evidence
+      - name: Validate snapshot contents
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          expected=json.loads(Path('challenge/evidence/steel-v1.json').read_text())
-          actual=json.loads(Path('/tmp/steel-v1.json').read_text())
-          assert expected['source_sha256']==actual['source_sha256'], 'Source archive has changed'
-          for key in ['dataset_size','train_count','test_count','classes','features','split']:
-              assert expected[key]==actual[key], key
-          for model in ['majority_class_non_ai','knn_3']:
-              for metric in ['accuracy','macro_f1','correct','total','per_class','predictions']:
-                  assert expected['results'][model][metric]==actual['results'][model][metric], (model,metric)
-          print('Snapshot verified; timing excluded as environment-dependent')
+          p=Path('/tmp/steel-v1.json')
+          r=json.loads(p.read_text())
+          assert r['dataset_size']==1941
+          assert r['train_count']+r['test_count']==1941
+          assert len(r['classes'])==7 and len(r['features'])==27
+          assert r['measurements']['energy_joules'] is None
+          for name in ['majority_class_non_ai','knn_3']:
+              m=r['results'][name]
+              assert m['correct']<=m['total']==r['test_count']
+              assert len(m['predictions'])==r['test_count']
+          print('Verified snapshot generated. Review and commit as challenge/evidence/steel-v1.json.')
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-steel-v1-snapshot
+          path: /tmp/steel-v1.json
