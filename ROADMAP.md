@@ -7,7 +7,7 @@ This roadmap is a proposal, not a delivery commitment.
 - [x] Draft contribution guidance and Claude Code instructions
 - [x] Select and add Apache License 2.0 (maintainer approved)
 - [ ] Audit existing content for publication rights, dependencies and company-specific terminology
-- [ ] Adopt a code of conduct and issue/PR templates
+- [x] Draft a code of conduct and issue/PR templates (confidential reporting channel still to establish)
 
 ## Phase 1 — Establish a reproducible baseline
 - [ ] Inventory current synthetic industrial benchmark and tests
