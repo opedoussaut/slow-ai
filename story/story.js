@@ -347,6 +347,52 @@ function observeChapters() {
   funnelIo.observe($("#funnel"));
 }
 
+
+// ---------------------------------------------------------------------------
+// Overview: one simulated hour in a 100 MW-class AI factory (story/data/campus-v1.json)
+// ---------------------------------------------------------------------------
+async function loadCampus() {
+  const box = $("#hourRoutes");
+  try {
+    const res = await fetch("data/campus-v1.json");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const c = await res.json(), q = c.questions, e = c.escalation_summary;
+    $("#campusScale").textContent = `${fmt.format(c.campus.racks)} liquid-cooled racks at ${c.campus.rack_kw} kW, ${c.campus.cdus} cooling loops, ${c.campus.window}.`;
+    const rows = [
+      [1, `Is ${q.supply_limit.cdu} supply above its limit?`, `No: ${q.supply_limit.supply_c} °C against a ${q.supply_limit.limit_c} °C limit. Every sensor limit and camera frame is checked this way, every second.`],
+      [2, "Will rack R14 throttle in the next 15 minutes?", `Yes, probability ${q.throttle_risk.p_compact.toFixed(2)}. In the simulation it throttled at ${q.throttle_risk.actually_throttled_at}. Called only for rack-minutes whose temperature was rising.`],
+      [3, "Is that a coolant leak under R14?", `Leak, probability ${q.leak.leak_probability} (simulated output). Also answers the uncertain cases the small model escalates.`],
+      [4, `Shed ${q.grid.request_mw} MW from ${q.grid.at}: which jobs to checkpoint first?`, "Grid, customer commitments and cooling weighed together, on curated evidence only. Not run in this demonstration; the approver decides."],
+    ];
+    const maxLog = Math.log10(c.route_counts["1"] + 1);
+    const bars = [];
+    box.replaceChildren(...rows.map(([k, question, answer]) => {
+      const n = c.route_counts[String(k)], bar = el("i");
+      bars.push([bar, (100 * Math.log10(n + 1)) / maxLog]);
+      return el("article", { class: "hour-row", "data-route": String(k) },
+        el("div", {}, el("span", { class: "hour-name", text: ROUTE_NAMES[k] }),
+          metric(fmt.format(n), "simulation", "strong"), el("span", { class: "small quiet", text: n === 1 ? "call this hour" : "calls this hour" })),
+        el("div", {}, el("div", { class: "hour-bar", "aria-hidden": "true" }, bar),
+          el("p", { class: "hour-q", text: question }), el("p", { class: "hour-a small", text: answer })));
+    }));
+    $$(".hour-row strong[data-metric]").forEach((n) => n.classList.add("hour-count"));
+    const apply = () => bars.forEach(([b, w], i) => setTimeout(() => (b.style.width = `${w.toFixed(1)}%`), reduceMotion ? 0 : i * 200));
+    if (reduceMotion) apply(); else requestAnimationFrame(() => requestAnimationFrame(apply));
+    $("#hourEscalation").replaceChildren(
+      el("p", {}, el("strong", { text: "Was escalating worth it? " }),
+        `Of ${fmt.format(e.count)} uncertain cases the small model sent up a level, the specialized model was right `,
+        metric(fmt.format(e.specialized_correct), "simulation"), " times and the small model ", metric(fmt.format(e.compact_correct), "simulation"),
+        `. Escalation fixed ${e.specialized_correct - e.compact_correct} answers.`),
+      el("p", { class: "small quiet", style: "margin-top:8px" },
+        "Method: each answer is compared with what the simulated rack actually did in the next 15 minutes. Bars use a logarithmic scale. ",
+        el("a", { href: "https://github.com/opedoussaut/slow-ai/blob/main/story/generator/campus.py", text: "Generator source" })));
+    box.dataset.loaded = "true";
+  } catch (err) {
+    box.replaceChildren(el("p", { class: "small", text: `The simulated hour could not be loaded (${err.message}).` }));
+    box.dataset.loaded = "false";
+  }
+}
+
 async function init() {
   try {
     const res = await fetch("data/scenario-v1.json");
@@ -369,7 +415,7 @@ async function init() {
   });
   $("#downloadRecord").addEventListener("click", downloadRecord);
   observeChapters();
-  await loadSteel();
+  await Promise.all([loadCampus(), loadSteel()]);
   document.documentElement.dataset.ready = "true";
 }
 

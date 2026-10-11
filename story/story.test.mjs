@@ -51,6 +51,18 @@ test('loads without errors and shows the simulated raw record count', async () =
   await page.close();
 });
 
+test('the one-hour overview shows the campus simulation counts', async () => {
+  const campus = JSON.parse(await readFile('story/data/campus-v1.json', 'utf8'));
+  const { page } = await open();
+  assert.equal(await page.locator('#hourRoutes').getAttribute('data-loaded'), 'true');
+  const shown = await page.locator('#hourRoutes .hour-count').allInnerTexts();
+  const fmt = new Intl.NumberFormat('en-GB');
+  assert.deepEqual(shown, ['1', '2', '3', '4'].map((k) => fmt.format(campus.route_counts[k])));
+  const esc = await page.locator('#hourEscalation').innerText();
+  assert.match(esc, new RegExp(`right ${campus.escalation_summary.specialized_correct} times`));
+  await page.close();
+});
+
 test('loads the real published steel evidence', async () => {
   const { page } = await open();
   assert.equal(await page.locator('#steelAcc').getAttribute('data-loaded'), 'true');
