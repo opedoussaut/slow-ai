@@ -7,7 +7,7 @@ import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
 
 const out = process.argv[2] || 'slowai-story.mp4';
-const FPS = 30, DURATION = 90, BASE = process.env.SCENE_URL || 'http://localhost:8765/video/scene.html';
+const FPS = 30, BASE = process.env.SCENE_URL || 'http://localhost:8765/video/scene-v3.html';
 
 const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
   '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
@@ -15,6 +15,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
 await page.goto(BASE);
 await page.waitForFunction(() => window.__ready === true, { timeout: 30000 });
+const DURATION = await page.evaluate(() => window.__duration || 90);
 const frames = FPS * DURATION;
 for (let i = 0; i < frames; i++) {
   await page.evaluate((t) => window.__render(t), i / FPS);
