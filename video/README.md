@@ -8,6 +8,16 @@ npm install --no-save playwright@1.58.2 && npx playwright install chromium
 node video/render.mjs slowai-story-v3.mp4        # needs ffmpeg on PATH
 ```
 
+## Soundtrack
+
+`music.py` synthesises the soundtrack from sine and noise sources (no samples, no third-party music), timed to the scenes; it is released with the project. To add it:
+
+```bash
+python video/music.py --output slowai-music.wav
+ffmpeg -i slowai-story-v3.mp4 -i slowai-music.wav -map 0:v -map 1:a -c:v copy \
+  -af "loudnorm=I=-16:TP=-1.5:LRA=11" -c:a aac -b:a 192k -shortest slowai-story-v3-music.mp4
+```
+
 ## What is real, simulated or illustrative
 
 | Element | Kind |
