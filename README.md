@@ -1,4 +1,6 @@
-<p align="center"><img src="assets/slowai-wordmark.svg" alt="ƧlowAI — Think first. AI when it matters." width="700"></p>
+<p align="center"><img src="assets/brand/slowai-logo-light.svg" alt="SlowAI" width="520"></p>
+
+<p align="center"><strong>Think first. AI when it matters.</strong></p>
 
 <p align="center"><strong>Open by nature. Lean by design.</strong></p>
 
