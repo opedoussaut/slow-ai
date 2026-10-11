@@ -1,0 +1,432 @@
+{
+ "schema": "slowai-campus-scenario/1",
+ "seed": 20261011,
+ "evidence_kind": "reproducible_simulation",
+ "disclaimer": "Synthetic 100 MW-class AI factory hour. Scale follows public reference designs; every value is simulated, not measured. The drip-tray vision model output is simulated, not a trained model.",
+ "models": {
+  "throttle_compact": {
+   "features": [
+    "gpu_c",
+    "flow_pct"
+   ],
+   "classes": [
+    "no_throttle",
+    "throttle_within_15_min"
+   ],
+   "mean": [
+    78.699012,
+    98.714925
+   ],
+   "scale": [
+    2.498507,
+    2.639295
+   ],
+   "weights": [
+    [
+     -0.822829,
+     0.695421
+    ],
+    [
+     0.822829,
+     -0.695421
+    ]
+   ],
+   "bias": [
+    2.811089,
+    -2.811089
+   ],
+   "evaluation": {
+    "n": 2454,
+    "accuracy": 0.989,
+    "brier": 0.018,
+    "ece": 0.014
+   }
+  },
+  "throttle_specialized": {
+   "features": [
+    "gpu_c",
+    "gpu_slope_c_per_10min",
+    "flow_pct",
+    "ambient_c",
+    "load",
+    "flow_slope_pct_per_10min",
+    "supply_c"
+   ],
+   "classes": [
+    "no_throttle",
+    "throttle_within_15_min"
+   ],
+   "mean": [
+    78.699012,
+    0.828261,
+    98.714925,
+    34.691566,
+    0.899085,
+    -0.532589,
+    24.701331
+   ],
+   "scale": [
+    2.498507,
+    1.001965,
+    2.639295,
+    2.607003,
+    0.05797,
+    1.10926,
+    0.401422
+   ],
+   "weights": [
+    [
+     -0.597164,
+     0.10938,
+     0.832389,
+     -0.143715,
+     -0.16122,
+     0.129019,
+     -0.11328
+    ],
+    [
+     0.597164,
+     -0.10938,
+     -0.832389,
+     0.143715,
+     0.16122,
+     -0.129019,
+     0.11328
+    ]
+   ],
+   "bias": [
+    2.882428,
+    -2.882428
+   ],
+   "evaluation": {
+    "n": 2454,
+    "accuracy": 0.989,
+    "brier": 0.017,
+    "ece": 0.015
+   }
+  },
+  "_training": {
+   "train_samples": 4860,
+   "test_samples": 2454,
+   "positives_test": 136,
+   "note": "Labels come from the simulation: did the rack actually reach the throttle temperature within 15 minutes."
+  }
+ },
+ "campus": {
+  "halls": 4,
+  "cdus": 24,
+  "racks": 576,
+  "rack_kw": 140.0,
+  "it_load_mw": 80.6,
+  "window": "16:00-17:00"
+ },
+ "raw_samples": 6566400,
+ "route_counts": {
+  "1": 6566400,
+  "2": 2869,
+  "3": 196,
+  "4": 1
+ },
+ "route_names": {
+  "1": "No AI",
+  "2": "Decision model",
+  "3": "Specialized model",
+  "4": "Frontier model"
+ },
+ "route1_alarms": {
+  "supply_over_limit": 0,
+  "cdu_low_flow_seconds": 377,
+  "gpu_throttle_rack_seconds": 21405
+ },
+ "route2_sample": [
+  {
+   "rack": "CDU-07/R21",
+   "minute": 48,
+   "p": 0.998
+  },
+  {
+   "rack": "CDU-07/R18",
+   "minute": 45,
+   "p": 0.996
+  },
+  {
+   "rack": "CDU-07/R19",
+   "minute": 47,
+   "p": 0.996
+  },
+  {
+   "rack": "CDU-07/R21",
+   "minute": 47,
+   "p": 0.996
+  },
+  {
+   "rack": "CDU-07/R06",
+   "minute": 45,
+   "p": 0.995
+  }
+ ],
+ "escalations_sample": [
+  {
+   "rack": "CDU-07/R01",
+   "minute": 28,
+   "p_compact": 0.249,
+   "p_specialized": 0.198,
+   "throttled_within_15_min": false
+  },
+  {
+   "rack": "CDU-07/R01",
+   "minute": 30,
+   "p_compact": 0.342,
+   "p_specialized": 0.327,
+   "throttled_within_15_min": false
+  },
+  {
+   "rack": "CDU-07/R01",
+   "minute": 31,
+   "p_compact": 0.41,
+   "p_specialized": 0.375,
+   "throttled_within_15_min": true
+  },
+  {
+   "rack": "CDU-07/R01",
+   "minute": 32,
+   "p_compact": 0.454,
+   "p_specialized": 0.384,
+   "throttled_within_15_min": true
+  },
+  {
+   "rack": "CDU-07/R01",
+   "minute": 33,
+   "p_compact": 0.486,
+   "p_specialized": 0.427,
+   "throttled_within_15_min": true
+  }
+ ],
+ "escalation_summary": {
+  "count": 185,
+  "compact_correct": 132,
+  "specialized_correct": 143,
+  "answer_changed": 15
+ },
+ "camera_calls": [
+  {
+   "t": "16:06",
+   "rack": "CDU-09/R02",
+   "leak_probability": 0.08
+  },
+  {
+   "t": "16:12",
+   "rack": "CDU-24/R05",
+   "leak_probability": 0.03
+  },
+  {
+   "t": "16:14",
+   "rack": "CDU-18/R12",
+   "leak_probability": 0.04
+  },
+  {
+   "t": "16:18",
+   "rack": "CDU-17/R05",
+   "leak_probability": 0.06
+  },
+  {
+   "t": "16:20",
+   "rack": "CDU-16/R02",
+   "leak_probability": 0.08
+  },
+  {
+   "t": "16:28",
+   "rack": "CDU-08/R17",
+   "leak_probability": 0.05
+  },
+  {
+   "t": "16:30",
+   "rack": "CDU-08/R03",
+   "leak_probability": 0.02
+  },
+  {
+   "t": "16:31",
+   "rack": "CDU-24/R18",
+   "leak_probability": 0.08
+  },
+  {
+   "t": "16:39",
+   "rack": "CDU-09/R07",
+   "leak_probability": 0.08
+  },
+  {
+   "t": "16:39",
+   "rack": "CDU-07/R14",
+   "leak_probability": 0.94
+  },
+  {
+   "t": "16:45",
+   "rack": "CDU-19/R04",
+   "leak_probability": 0.1
+  }
+ ],
+ "questions": {
+  "supply_limit": {
+   "route": 1,
+   "cdu": "CDU-07",
+   "supply_c": 25.1,
+   "limit_c": 32.0,
+   "flow_pct": 90.6
+  },
+  "throttle_risk": {
+   "route": 2,
+   "rack": "CDU-07/R14",
+   "p_compact": 0.973,
+   "escalated": false,
+   "p_specialized": 0.973,
+   "features": {
+    "gpu_c": 85.91,
+    "gpu_slope_c_per_10min": 3.5,
+    "flow_pct": 90.25,
+    "ambient_c": 36.54,
+    "load": 0.92,
+    "flow_slope_pct_per_10min": -2.9,
+    "supply_c": 25.18
+   },
+   "actually_throttled_at": "16:42"
+  },
+  "leak": {
+   "route": 3,
+   "rack": "CDU-07/R14",
+   "leak_probability": 0.94,
+   "model_output": "simulated",
+   "camera_triggers_in_hour": 11
+  },
+  "grid": {
+   "route": 4,
+   "request_mw": 20,
+   "duration_h": 2,
+   "at": "16:45",
+   "status": "not run"
+  }
+ },
+ "cdu07_flow_by_minute": [
+  99.43,
+  100.18,
+  99.65,
+  99.69,
+  99.54,
+  99.54,
+  98.81,
+  99.61,
+  99.12,
+  99.26,
+  98.52,
+  98.55,
+  98.65,
+  98.73,
+  97.5,
+  98.12,
+  98.04,
+  97.78,
+  97.69,
+  97.93,
+  96.53,
+  96.29,
+  96.14,
+  96.44,
+  95.21,
+  95.72,
+  95.01,
+  95.2,
+  95.17,
+  94.14,
+  94.12,
+  93.38,
+  93.13,
+  93.34,
+  92.5,
+  92.91,
+  91.62,
+  91.94,
+  91.05,
+  90.41,
+  90.56,
+  90.39,
+  89.51,
+  89.2,
+  88.65,
+  88.22,
+  88.36,
+  88.31,
+  87.44,
+  86.97,
+  86.51,
+  86.15,
+  85.32,
+  85.85,
+  85.82,
+  84.81,
+  83.38,
+  82.68,
+  83.42,
+  82.62
+ ],
+ "r14_gpu_by_minute": [
+  77.1,
+  77.12,
+  77.48,
+  77.81,
+  78.29,
+  77.91,
+  77.45,
+  78.58,
+  78.59,
+  77.29,
+  77.83,
+  79.57,
+  79.12,
+  78.53,
+  79.18,
+  79.3,
+  79.77,
+  79.56,
+  79.56,
+  80.95,
+  80.84,
+  80.46,
+  79.9,
+  80.61,
+  81.08,
+  80.3,
+  82.36,
+  82.62,
+  83.95,
+  82.47,
+  82.41,
+  83.77,
+  84.1,
+  83.89,
+  84.17,
+  83.42,
+  84.27,
+  85.11,
+  84.05,
+  84.9,
+  85.91,
+  85.98,
+  87.3,
+  86.91,
+  87.31,
+  87.75,
+  88.62,
+  86.58,
+  88.96,
+  89.12,
+  89.09,
+  89.23,
+  89.74,
+  90.6,
+  90.99,
+  90.64,
+  90.23,
+  92.25,
+  92.63,
+  92.53
+ ]
+}

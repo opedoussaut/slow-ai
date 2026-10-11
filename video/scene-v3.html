@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SlowAI video v3</title>
+<style>
+@font-face { font-family: "Inter"; font-weight: 100 900; src: url("/video/inter-latin-wght-normal.woff2") format("woff2-variations"); }
+html, body { margin: 0; background: #06142a; }
+canvas { display: block; width: 1920px; height: 1080px; }
+</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script type="module">
+const W = 1920, H = 1080;
+const ctx = document.getElementById("c").getContext("2d");
+const B = await (await fetch("/story/data/campus-v1.json")).json();
+const fmt = new Intl.NumberFormat("en-GB");
+const C = { night: "#06142a", navy: "#0a1f3a", blue: "#1f63c6", bright: "#6fb0ff", ice: "#dce8f6", mute: "#a3bbd6", white: "#f4f8fc",
+  r1: "#9aa9ba", r2: "#5aa2ff", r3: "#2fc4a2", r4: "#f0a43c", green: "#5fd394" };
+const LANE = { 1: { c: C.r1, name: "No AI", sub: "rules · thresholds" }, 2: { c: C.r2, name: "Decision model", sub: "small · calibrated" },
+  3: { c: C.r3, name: "Specialized model", sub: "trained for one task" }, 4: { c: C.r4, name: "Frontier model", sub: "only when nothing simpler works" } };
+const counts = Object.fromEntries(Object.entries(B.route_counts).map(([k, v]) => [k, v]));
+const Q = B.questions, E = B.escalation_summary;
+
+// ---------- assets ----------
+const img = (src) => new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = src; });
+const P = {};
+for (const k of ["01-campus", "02-data-hall", "03-rack-rear", "04-cdu-room", "05-rooftop-coolers", "06-substation", "07-drip-tray", "08-operations", "09-cold-plate", "10-title-plate"])
+  P[k] = await img(`/video/images/${k}.jpg`);
+const LOGO = await img("/assets/brand/slowai-logo-dark.svg");
+await document.fonts.load("600 40px Inter");
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+function T(str, x, y, { size = 40, w = 500, color = C.white, align = "left", a = 1, maxW, lh } = {}) {
+  ctx.save(); ctx.globalAlpha *= a; ctx.fillStyle = color; ctx.textAlign = align; ctx.font = `${w} ${size}px Inter`;
+  if (maxW) { const words = String(str).split(" "); let line = "", yy = y; for (const wd of words) { const tt = line ? line + " " + wd : wd;
+      if (ctx.measureText(tt).width > maxW && line) { ctx.fillText(line, x, yy); line = wd; yy += lh || size * 1.25; } else line = tt; }
+    ctx.fillText(line, x, yy); ctx.restore(); return yy; }
+  ctx.fillText(str, x, y); ctx.restore(); return y;
+}
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function panel(x, y, w, h, { a = 1, fill = "rgba(8,26,52,.78)", stroke = "rgba(111,176,255,.35)", r = 18, lw = 2 } = {}) {
+  ctx.save(); ctx.globalAlpha *= a; rr(x, y, w, h, r); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); ctx.restore();
+}
+function badge(label, x, y, color, a = 1) {
+  ctx.save(); ctx.globalAlpha *= a; ctx.font = "600 21px Inter"; const w = ctx.measureText(label).width + 42;
+  rr(x, y - 27, w, 38, 8); ctx.fillStyle = "rgba(6,20,42,.72)"; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(x + 16, y - 8, 5, 0, 7); ctx.fillStyle = color; ctx.fill(); ctx.fillText(label, x + 29, y); ctx.restore(); return w;
+}
+// photo with slow push-in, cover-fit into a box, plus darkening for legibility
+function photo(key, t0, t1, t, { x = 0, y = 0, w = W, h = H, a = 1, dark = 0.45, from = 1.0, to = 1.08, fx = 0.5, fy = 0.5, r = 0 } = {}) {
+  const im = P[key], k = lerp(from, to, seg(t, t0, t1));
+  const s = Math.max(w / im.width, h / im.height) * k, iw = im.width * s, ih = im.height * s;
+  ctx.save(); ctx.globalAlpha *= a;
+  if (r) { rr(x, y, w, h, r); ctx.clip(); } else { ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); }
+  ctx.drawImage(im, x + (w - iw) * fx, y + (h - ih) * fy, iw, ih);
+  const g = ctx.createLinearGradient(x, y, x, y + h); g.addColorStop(0, `rgba(4,12,26,${dark * 0.7})`); g.addColorStop(1, `rgba(4,12,26,${dark + 0.25})`);
+  ctx.fillStyle = g; ctx.fillRect(x, y, w, h); ctx.restore();
+}
+function logo(cx, cy, w, a = 1) { const h = w * LOGO.naturalHeight / LOGO.naturalWidth; ctx.save(); ctx.globalAlpha *= a; ctx.drawImage(LOGO, cx - w / 2, cy - h / 2, w, h); ctx.restore(); }
+const labelsFor = (kinds, a = 1) => { let x = 56; for (const [txt, col] of kinds) x += badge(txt, x, 76, col, a) + 12; };
+const ILL = ["AI-generated illustration", C.mute], SIM = ["Reproducible simulation", C.bright], MEAS = ["Measured in the simulation", C.green];
+
+// ---------- timeline ----------
+const S = { title: 0, campus: 7, stress: 14, curate: 23, router: 32, record: 70, pyramid: 77, end: 85, END: 92 };
+const CAPS = [
+  [0.4, 7, "I'm increasingly convinced that the expensive mistake in industrial AI isn't the wrong model. It's using a model where none was needed."],
+  [7, 14, "Take a 100-megawatt AI factory: 576 liquid-cooled racks, around 140 kilowatts each."],
+  [14, 23, "One hot afternoon, everything happens at once: a heat wave, a fouling cooling loop, and a request from the grid."],
+  [23, 32, "SlowAI curates first. Millions of readings become a handful of things worth a decision."],
+  [32, 40, "Then every question goes to the least intelligence that answers it. A limit check is just arithmetic."],
+  [40, 47, "Will this rack throttle? A small calibrated model knows, and says how sure it is."],
+  [47, 54, "When it isn't sure enough, the question moves up one lane. We measure whether that was worth it."],
+  [54, 62, "Is that a leak? Rules can't read images. A vision model trained for this one task can."],
+  [62, 70, "Only the trade-off between grid, customers and cooling goes to a frontier model, on curated evidence."],
+  [70, 77, "What comes out is a decision record, with its evidence, its routes and its approver."],
+  [77, 85, "In one hour: millions of rule checks, thousands of small-model calls, a few hundred specialized calls, one frontier call."],
+  [85, 91.6, "Think first. AI when it matters."],
+];
+function captions(t) {
+  const c = CAPS.find(([a, b]) => t >= a && t < b); if (!c) return;
+  const a = Math.min(seg(t, c[0], c[0] + 0.4), 1 - seg(t, c[1] - 0.3, c[1]));
+  ctx.save(); const g = ctx.createLinearGradient(0, H - 200, 0, H); g.addColorStop(0, "rgba(4,12,26,0)"); g.addColorStop(.5, "rgba(4,12,26,.85)"); g.addColorStop(1, "rgba(4,12,26,.95)");
+  ctx.fillStyle = g; ctx.fillRect(0, H - 200, W, 200); ctx.globalAlpha = a; ctx.font = "500 33px Inter"; ctx.fillStyle = C.white; ctx.textAlign = "center";
+  const words = c[2].split(" "), lines = []; let line = "";
+  for (const w of words) { const tt = line ? line + " " + w : w; if (ctx.measureText(tt).width > 1560 && line) { lines.push(line); line = w; } else line = tt; }
+  lines.push(line); lines.forEach((l, i) => ctx.fillText(l, W / 2, H - 98 - (lines.length - 1 - i) * 44 + (lines.length - 1) * 22)); ctx.restore();
+}
+
+// ---------- scenes ----------
+function sTitle(t) {
+  photo("10-title-plate", 0, 8, t, { dark: 0.35 });
+  logo(560, 300, 640, ease(seg(t, 0.2, 1.2)));
+  T("Most AI projects start with:", 245, 470, { size: 36, color: C.mute, a: ease(seg(t, 1.6, 2.4)) });
+  T("“Which model?”", 245, 545, { size: 60, w: 400, color: "#8ea4bd", a: ease(seg(t, 1.6, 2.4)) });
+  T("We start with:", 245, 650, { size: 36, color: C.mute, a: ease(seg(t, 3.4, 4.2)) });
+  T("“What does this decision actually need?”", 245, 728, { size: 60, w: 650, a: ease(seg(t, 3.4, 4.2)) });
+}
+function sCampus(t) {
+  const l = t - S.campus;
+  photo("01-campus", S.campus, S.stress, t, { dark: 0.25, from: 1.0, to: 1.12, fx: 0.55, fy: 0.6 });
+  const a = ease(seg(l, 0.8, 1.8));
+  panel(1240, 170, 600, 300, { a });
+  T(`${Math.round(B.campus.it_load_mw / 0.8 / 10) * 10 === 100 ? "100 MW-class" : B.campus.it_load_mw + " MW IT"} AI factory`, 1280, 240, { size: 30, color: C.bright, w: 600, a });
+  T(fmt.format(B.campus.racks), 1280, 330, { size: 86, w: 700, a });
+  T(`liquid-cooled racks · ${B.campus.rack_kw} kW each`, 1280, 380, { size: 28, color: C.ice, a });
+  T(`${B.campus.cdus} cooling loops · ${B.campus.it_load_mw} MW of IT load`, 1280, 425, { size: 28, color: C.ice, a });
+  labelsFor([ILL, SIM]);
+}
+function sStress(t) {
+  const l = t - S.stress, shots = [["05-rooftop-coolers", "Outdoor air 33 → 38 °C", "Heat wave"], ["04-cdu-room", "CDU-07 strainer fouling · flow falling", "Cooling loop"], ["06-substation", "Shed 20 MW for 2 hours, from 16:45", "Grid request"]];
+  const i = Math.min(2, Math.floor(l / 3)), lt = l - i * 3, [key, line, tag] = shots[i];
+  photo(key, S.stress + i * 3, S.stress + i * 3 + 3, t, { dark: 0.3, from: 1.02, to: 1.1 });
+  const a = ease(seg(lt, 0.2, 0.7)) * (1 - seg(lt, 2.75, 3));
+  T(tag, 120, 780, { size: 30, w: 600, color: [C.r4, C.r2, C.r4][i], a });
+  T(line, 120, 850, { size: 58, w: 700, a });
+  T("16:00 – 17:00", 1800, 150, { size: 30, w: 600, color: C.ice, align: "right" });
+  labelsFor([ILL, SIM]);
+}
+function sCurate(t) {
+  const l = t - S.curate;
+  photo("02-data-hall", S.curate, S.router, t, { dark: 0.62, from: 1.0, to: 1.06 });
+  T("Curate first", 120, 220, { size: 64, w: 700, a: ease(seg(l, 0.3, 1)) });
+  const steps = [[B.raw_samples, "sensor readings and camera frames this hour", C.ice],
+                 [counts["2"], "rack-minutes with a temperature rise worth a look", C.r2],
+                 [1, "loop in trouble: CDU-07 and its 24 racks", C.r4]];
+  steps.forEach(([n, txt, col], i) => {
+    const a = ease(seg(l, 1.2 + i * 2.2, 2.2 + i * 2.2)), y = 380 + i * 170;
+    const shown = Math.round(n * ease(seg(l, 1.2 + i * 2.2, 3.0 + i * 2.2)));
+    panel(120, y - 95, 1180, 140, { a, stroke: col === C.ice ? "rgba(111,176,255,.3)" : col });
+    T(fmt.format(shown), 160, y, { size: 72, w: 700, color: col === C.ice ? C.white : col, a });
+    T(txt, 560, y - 12, { size: 30, color: C.ice, a, maxW: 700 });
+    if (i < 2) { ctx.save(); ctx.globalAlpha = a * ease(seg(l, 2.2 + i * 2.2, 3.2 + i * 2.2)); ctx.fillStyle = C.bright;
+      ctx.beginPath(); ctx.moveTo(700, y + 58); ctx.lineTo(724, y + 58); ctx.lineTo(712, y + 76); ctx.fill(); ctx.restore(); }
+  });
+  T("Deterministic: filter, detect change, correlate, keep provenance", 120, 930 - 60, { size: 26, color: C.mute, a: ease(seg(l, 7.5, 8.2)) });
+  labelsFor([ILL, SIM]);
+}
+
+// ---------- the router ----------
+const RX = 880, RY = 580, LX0 = 1010, LX1 = 1840, LY = { 1: 345, 2: 495, 3: 645, 4: 795 };
+const counterStart = { 1: 32, 2: 39, 3: 47, 4: 62 }, counterEnd = { 1: 69, 2: 69, 3: 69, 4: 63 };
+function routerBase(t, a) {
+  ctx.save(); ctx.globalAlpha = a;
+  panel(800, 200, 1080, 680, { fill: "rgba(6,20,42,.86)", stroke: "rgba(111,176,255,.25)" });
+  T("Route each question to the least intelligence that answers it", 840, 250, { size: 26, w: 600, color: C.ice });
+  for (const k of [1, 2, 3, 4]) {
+    const y = LY[k], L = LANE[k];
+    ctx.strokeStyle = L.c; ctx.lineWidth = 3; ctx.globalAlpha = a * 0.55;
+    ctx.beginPath(); ctx.moveTo(RX + 22, RY); ctx.bezierCurveTo(RX + 80, RY, LX0 - 70, y, LX0, y); ctx.stroke();
+    ctx.globalAlpha = a; rr(LX0, y - 52, LX1 - LX0, 104, 14); ctx.fillStyle = "rgba(10,33,66,.85)"; ctx.fill(); ctx.strokeStyle = L.c; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = L.c; rr(LX0, y - 52, 10, 104, [14, 0, 0, 14]); ctx.fill();
+    T(`${k} · ${L.name}`, LX0 + 34, y - 8, { size: 30, w: 650, color: L.c });
+    T(L.sub, LX0 + 34, y + 30, { size: 22, color: C.mute });
+    const n = Math.round(counts[k] * ease(seg(t, counterStart[k], counterEnd[k])));
+    T(fmt.format(n), LX1 - 26, y + 2, { size: 34, w: 700, align: "right" });
+    T("calls this hour", LX1 - 30, y + 34, { size: 19, color: C.mute, align: "right" });
+  }
+  ctx.beginPath(); ctx.arc(RX, RY, 22, 0, 7); ctx.fillStyle = C.navy; ctx.fill(); ctx.strokeStyle = C.bright; ctx.lineWidth = 5; ctx.stroke();
+  ctx.restore();
+}
+// a question card travelling from the left panel through the junction into its lane
+function card(t, t0, text, lane, { via = null, viaAt = 0, answer = "", ansCol = C.white } = {}) {
+  const k1 = ease(seg(t, t0 + 0.6, t0 + 1.6));
+  const target = via ? (t < t0 + viaAt ? via : lane) : lane;
+  const k2 = via ? ease(seg(t, t0 + viaAt, t0 + viaAt + 1)) : 0;
+  let x = lerp(380, RX - 230, k1), y = lerp(860, RY - 32, k1);
+  if (k1 >= 1) { const ty = via ? lerp(LY[via], LY[lane], k2) : LY[target]; const k3 = ease(seg(t, t0 + 1.6, t0 + 2.4));
+    x = lerp(RX - 230, LX0 + 345, k3); y = lerp(RY - 32, (via && k2 === 0 ? LY[via] : ty) - 32, k3); }
+  const a = ease(seg(t, t0, t0 + 0.4));
+  panel(x, y, 280, 64, { a, fill: "rgba(244,248,252,.96)", stroke: LANE[target].c, lw: 3, r: 12 });
+  T(text, x + 14, y + 27, { size: 19, w: 600, color: C.navy, a, maxW: 256, lh: 23 });
+  if (answer && t > t0 + 2.6) T(answer, LX0 + 34 + 420, LY[lane] + 72, { size: 0.1, a: 0 });
+}
+function sRouter(t) {
+  const l = t - S.router, a = ease(seg(l, 0, 0.8));
+  // left: the photo for the current question
+  const shots = [[32, "06-substation"], [32, "04-cdu-room"], [40, "03-rack-rear"], [47, "09-cold-plate"], [54, "07-drip-tray"], [62, "08-operations"]];
+  let cur = shots[1]; for (const s of shots.slice(1)) if (t >= s[0]) cur = s;
+  const nextIdx = shots.indexOf(cur) + 1, nxt = shots[nextIdx];
+  photo(cur[1], cur[0], cur[0] + 8, t, { dark: 0.35, from: 1.0, to: 1.07 });
+  ctx.fillStyle = "rgba(4,12,26,.35)"; ctx.fillRect(0, 0, W, H);
+  routerBase(t, a);
+  const qs = [
+    { t0: 32.5, q: `Is ${Q.supply_limit.cdu} supply above its limit?`, lane: 1, ans: `No · ${Q.supply_limit.supply_c} °C vs ${Q.supply_limit.limit_c} °C limit`, why: "A trusted sensor and a fixed limit: arithmetic, every second." },
+    { t0: 40.0, q: "Will rack R14 throttle in the next 15 min?", lane: 2, ans: `Yes · probability ${Q.throttle_risk.p_compact.toFixed(2)} · it throttled at ${Q.throttle_risk.actually_throttled_at}`, why: "A bounded yes or no. A 2-input calibrated model, under a microsecond." },
+    { t0: 47.0, q: "Rack R01: throttle in 15 min? p = 0.41", lane: 3, via: 2, viaAt: 2.6, ans: `Of ${E.count} uncertain cases, the specialized model was right ${E.specialized_correct} times and the small one ${E.compact_correct}: escalation fixed ${E.specialized_correct - E.compact_correct} answers`, why: "Below the 0.8 confidence contract, so it moves up one lane." },
+    { t0: 54.5, q: "Is that a coolant leak under R14?", lane: 3, ans: `Leak · ${Q.leak.leak_probability} · ${Q.leak.camera_triggers_in_hour} camera frames checked this hour`, why: "Rules can't read images. A vision model trained only for drip trays can." },
+    { t0: 62.5, q: "Shed 20 MW: which jobs to checkpoint first?", lane: 4, ans: "Curated evidence only · not run here · the approver decides", why: "Grid, customer commitments and cooling, weighed together." },
+  ];
+  for (const [i, c] of qs.entries()) {
+    const end = qs[i + 1] ? qs[i + 1].t0 : 70;
+    if (t < c.t0 || t > end) continue;
+    const fade = 1 - seg(t, end - 0.4, end);
+    ctx.save(); ctx.globalAlpha = fade;
+    card(t, c.t0, c.q, c.lane, { via: c.via, viaAt: c.viaAt });
+    // explanation under the left panel
+    T(c.why, 80, 300, { size: 34, w: 600, a: ease(seg(t, c.t0 + 0.2, c.t0 + 0.8)), maxW: 640, lh: 44 });
+    if (c.via) {
+      const ka = ease(seg(t, c.t0 + 2.0, c.t0 + 2.5)) * (1 - ease(seg(t, c.t0 + 2.6, c.t0 + 3.2)));
+      T("contract needs ≥ 0.80 → escalate", LX0 + 345, LY[2] + 76, { size: 21, w: 650, color: C.r4, a: ka });
+    }
+    const ansA = ease(seg(t, c.t0 + (c.via ? 3.8 : 2.6), c.t0 + (c.via ? 4.4 : 3.2)));
+    panel(80, 470, 660, c.via ? 200 : 150, { a: ansA, stroke: LANE[c.lane].c });
+    T("Answer", 110, 515, { size: 22, w: 600, color: LANE[c.lane].c, a: ansA });
+    T(c.ans, 110, 560, { size: 28, w: 600, a: ansA, maxW: 600, lh: 36 });
+    if (c.via) T("Method: answers compared with what the simulated racks actually did", 110, 710, { size: 20, color: C.mute, a: ansA, maxW: 600 });
+    ctx.restore();
+  }
+  const labs = t >= 47 && t < 54 ? [ILL, SIM, MEAS] : [ILL, SIM];
+  labelsFor(labs);
+}
+function sRecord(t) {
+  const l = t - S.record;
+  photo("08-operations", S.record, S.pyramid, t, { dark: 0.55, from: 1.04, to: 1.1 });
+  const a = ease(seg(l, 0.2, 1));
+  panel(280, 150, 1360, 700, { a, stroke: C.bright, fill: "rgba(8,26,52,.92)" });
+  T("Decision record · CDU-07 · rack R14 · 16:40", 330, 230, { size: 40, w: 700, a });
+  const rows = [["Situation", "CDU-07 flow falling, R14 heading to throttle, coolant on its drip tray"],
+    ["Proposed action", "Move R14's job, isolate the weeping coupling, clean the CDU-07 strainer"],
+    ["Routes", `No AI · decision model · specialized (escalated ${E.count}×, vision ${Q.leak.camera_triggers_in_hour}×) · frontier ×1`],
+    ["Open question", "Grid shed of 20 MW: checkpoint order, for the approver"],
+    ["Evidence", "Every item linked to its source readings and camera frames"],
+    ["Approval", "Required: Facility Operations lead"]];
+  rows.forEach(([k, v], i) => { const ra = ease(seg(l, 0.8 + i * 0.6, 1.4 + i * 0.6)), y = 320 + i * 86;
+    T(k, 330, y, { size: 26, w: 600, color: C.mute, a: ra }); T(v, 640, y, { size: 28, w: i === 5 ? 700 : 500, color: i === 5 ? C.r4 : C.white, a: ra, maxW: 960 }); });
+  labelsFor([ILL, SIM]);
+}
+function sPyramid(t) {
+  const l = t - S.pyramid;
+  ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+  photo("10-title-plate", S.pyramid, S.end, t, { dark: 0.7 });
+  T("One hour, one 100 MW-class AI factory", 960, 170, { size: 44, w: 700, align: "center", a: ease(seg(l, 0.2, 0.8)) });
+  const maxLog = Math.log10(counts["1"] + 1);
+  [1, 2, 3, 4].forEach((k, i) => {
+    const a = ease(seg(l, 0.6 + i * 0.7, 1.3 + i * 0.7)), y = 270 + i * 150;
+    const w = 1100 * Math.log10(counts[k] + 1) / maxLog * ease(seg(l, 0.6 + i * 0.7, 2 + i * 0.7));
+    ctx.save(); ctx.globalAlpha = a; rr(960 - w / 2, y, Math.max(w, 24), 96, 12); ctx.fillStyle = LANE[k].c; ctx.globalAlpha = a * 0.9; ctx.fill(); ctx.restore();
+    T(fmt.format(counts[k]), 960, y + 64, { size: 46, w: 800, color: C.navy, align: "center", a });
+    T(`${k} · ${LANE[k].name}`, 90, y + 60, { size: 28, w: 650, color: LANE[k].c, a });
+  });
+  T("Bar length on a logarithmic scale", 960, 900, { size: 22, color: C.mute, align: "center", a: ease(seg(l, 3.5, 4)) });
+  labelsFor([SIM]);
+}
+function sEnd(t) {
+  const l = t - S.end;
+  photo("10-title-plate", S.end, S.END, t, { dark: 0.45, from: 1.06, to: 1.0 });
+  logo(960, 400, 820, ease(seg(l, 0.2, 1.2)));
+  T("Think first. AI when it matters.", 960, 560, { size: 54, w: 600, color: C.ice, align: "center", a: ease(seg(l, 1, 1.8)) });
+  T("Open by nature. Lean by design. · opedoussaut.github.io/slow-ai", 960, 640, { size: 28, color: C.mute, align: "center", a: ease(seg(l, 1.6, 2.4)) });
+  T("Images: AI-generated illustrations. Incident and counts: reproducible simulation.", 960, 940, { size: 20, color: C.mute, align: "center", a: ease(seg(l, 2, 2.6)) });
+}
+
+const SCENES = [[S.title, sTitle], [S.campus, sCampus], [S.stress, sStress], [S.curate, sCurate], [S.router, sRouter], [S.record, sRecord], [S.pyramid, sPyramid], [S.end, sEnd]];
+function render(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+  const i = SCENES.findLastIndex(([s]) => t >= s); SCENES[i][1](t);
+  const start = SCENES[i][0], next = SCENES[i + 1]?.[0] ?? S.END;
+  if (i > 0 && t - start < 0.45) { ctx.globalAlpha = 1 - (t - start) / 0.45; ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H); }
+  if (next - t < 0.3) { ctx.globalAlpha = 1 - (next - t) / 0.3; ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H); }
+  ctx.globalAlpha = 1; captions(t);
+}
+window.__duration = S.END;
+window.__render = render; window.__ready = true; render(0);
+</script></body></html>
