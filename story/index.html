@@ -14,7 +14,7 @@
 <body>
 <a class="skip" href="#main">Skip to the story</a>
 
-<header class="hero">
+<header class="hero hero-photo">
   <div class="wrap">
     <div class="topbar">
       <a class="brand" href="./"><img src="../assets/brand/slowai-logo-dark.svg" alt="SlowAI" width="152" height="36"></a>
@@ -25,15 +25,9 @@
     </div>
     <h1><span>Think first.</span> <span>AI when it matters.</span></h1>
     <p class="lead">SlowAI is an open method for giving each industrial decision the least intelligence that answers it well. Curate the evidence first. Then use plain software, a small decision model, a specialized model, and a frontier model only when nothing simpler is enough.</p>
-    <figure class="stream" data-ev-scope>
-      <canvas id="stream" aria-label="Density of simulated cooling-loop records over 24 hours, one row per data source" role="img"></canvas>
-      <figcaption>
-        <span><strong data-metric data-ev="simulation" id="rawTotal">40,473</strong> records from one day of an AI Factory cooling loop. One rack is quietly losing coolant flow.</span>
-        <span class="ev" data-kind="simulation">Reproducible simulation</span>
-      </figcaption>
-    </figure>
+    <p class="hero-credit"><span class="ev" data-kind="illustrative">Illustrative</span> AI-generated image of a 100 MW-class AI factory campus</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#curate">Follow the incident</a>
+      <a class="btn btn-primary" href="#hour">See one hour of decisions</a>
       <a class="btn" href="#measure">Go to the measured evidence</a>
     </div>
   </div>
@@ -52,6 +46,7 @@
 <div class="wrap layout">
   <nav class="rail" aria-label="Story chapters">
     <ol>
+      <li><a href="#hour">One hour</a></li>
       <li><a href="#curate">1 Curate</a></li>
       <li><a href="#allocate">2 Allocate</a></li>
       <li><a href="#escalate">3 Escalate</a></li>
@@ -62,11 +57,34 @@
   </nav>
 
   <main id="main">
+    <section class="chapter" id="hour" aria-labelledby="hour-h" data-ev-scope>
+      <h2 id="hour-h">One hour in a 100 MW-class AI factory</h2>
+      <div class="prose">
+        <p class="lead">One hot afternoon: a heat wave, a cooling loop slowly fouling, a small leak under a rack, and the grid operator asking to shed 20 MW. Every question in that hour went to the least intelligence that could answer it. This is how often each route was used.</p>
+      </div>
+      <p class="small quiet" style="margin-top:14px"><span class="ev" data-kind="simulation">Reproducible simulation</span> <span id="campusScale">576 liquid-cooled racks at 140 kW, 24 cooling loops, 16:00 to 17:00.</span> Scale follows public AI factory reference designs; every value is simulated.</p>
+      <div class="hour" id="hourRoutes" aria-live="polite"><p class="small quiet">Loading the simulated hour…</p></div>
+      <div class="panel hour-escalation" id="hourEscalation"></div>
+      <figure class="hour-photo">
+        <img src="img/drip-tray.jpg" alt="AI-generated image of a drip tray under a liquid-cooled rack, with a small coolant puddle" width="1672" height="941" loading="lazy">
+        <figcaption class="small quiet"><span class="ev" data-kind="illustrative">Illustrative</span> AI-generated image. The drip-tray question goes to a specialized vision model because rules and small models cannot read images; its 0.94 leak probability is a simulated output.</figcaption>
+      </figure>
+      <p class="block prose">Below, open a smaller incident and run the routing yourself: curate the evidence, move the confidence contract, and download the decision record.</p>
+    </section>
+
     <section class="chapter" id="curate" aria-labelledby="curate-h" data-ev-scope>
       <h2 id="curate-h"><span class="step-no">1</span> Curate before anything reasons</h2>
       <div class="prose">
         <p class="lead">A large model could be handed the whole day. It does not need it. Deterministic steps narrow the data to evidence a person can check, and every item keeps a link back to its source records.</p>
       </div>
+      <figure class="stream stream-light">
+      <canvas id="stream" aria-label="Density of simulated cooling-loop records over 24 hours, one row per data source" role="img"></canvas>
+      <figcaption>
+        <span><strong data-metric data-ev="simulation" id="rawTotal">40,473</strong> records from one day of an AI Factory cooling loop. One rack is quietly losing coolant flow.</span>
+        <span class="ev" data-kind="simulation">Reproducible simulation</span>
+      </figcaption>
+    </figure>
+
       <div class="switch" role="group" aria-label="Scenario">
         <button type="button" data-variant="main" aria-pressed="true">Visible fault</button>
         <button type="button" data-variant="subtle" aria-pressed="false">Subtle fault</button>

@@ -32,7 +32,7 @@ jobs:
           mkdir -p _site
           mkdir -p _site/story
           cp -R challenge assets _site/
-          cp -R story/index.html story/story.css story/story.js story/models.js story/data story/fonts _site/story/
+          cp -R story/index.html story/story.css story/story.js story/models.js story/data story/fonts story/img _site/story/
           cat > _site/index.html <<'HTML'
           <!doctype html>
           <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
